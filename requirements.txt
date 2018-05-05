@@ -1,0 +1,5 @@
+Django==2.0.5
+freeze==1.0.10
+pkg-resources==0.0.0
+pytz==2018.4
+six==1.11.0
