@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+{% extends "reservasApp/baseGeneric.html" %}
 {% load static %}
 
+{% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
 
-<div id="header">Aqui hay que poner el encabezado que va a ser comun a todas las paginas.</div>
 <div id="main-wrap">
 	<div id="sidebar">
 		<img class="sidebar-icon" src="{% static 'reservasApp/icons/user.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
@@ -132,3 +133,4 @@
 <div id="footer">
 	<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 </div>
+{% endblock %}
