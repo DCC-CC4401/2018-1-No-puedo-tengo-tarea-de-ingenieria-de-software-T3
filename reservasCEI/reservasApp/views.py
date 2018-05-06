@@ -7,4 +7,6 @@ def index(request):
 def adminPendientes(request):
 	return render(request, 'reservasApp/adminPendientes.html')
 
+def listaArticulos(request):
+	return render(request, 'reservasApp/listaArticulos.html')
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends "reservasApp/baseGeneric.html" %}
+{% load static %}
+
+
+{% block content %}
+{%  include 'reservasApp/landingUsuarioButton.html' %}
+
+ <br>
+ <form method="get" action="listaArticulos">
+ <input type="submit" value="Artículos" class="btnSelected"/>
+
+    <form method="get" action="listaArticulos">
+ <input type="submit" value="Espacios" class="btnUnselected"/>
+
+
+{% endblock %}
