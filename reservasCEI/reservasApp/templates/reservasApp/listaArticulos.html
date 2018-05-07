@@ -1,17 +1,44 @@
-<!DOCTYPE html>
 {% extends "reservasApp/baseGeneric.html" %}
 {% load static %}
 
 
 {% block content %}
-{%  include 'reservasApp/landingUsuarioButton.html' %}
-
- <br>
- <form method="get" action="listaArticulos">
- <input type="submit" value="Artículos" class="btnSelected"/>
-
-    <form method="get" action="listaArticulos">
- <input type="submit" value="Espacios" class="btnUnselected"/>
 
 
+    <br>
+
+    <form method="get" action="listaArticulos"/>
+    <input type="submit" value="Artículos" class="btnSelected"/>
+
+    <form method="get" action="listaArticulos"/>
+    <input type="submit" value="Espacios" class="btnUnselected"/>
+
+    <div>
+        <img src="{% static 'reservasApp/icons/search.svg' %}" class="searchImage">
+        <form action="buscar">
+
+            <input type="text" name="search" class="searchBar"/>
+            <button type="submit" class="searchBtn">Buscar</button>
+        </form>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <a href="listaArticulos/avanzada" style="margin-left: 76%">Búsqueda Avanzada</a>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon1">@</span>
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
 {% endblock %}

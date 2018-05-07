@@ -10,3 +10,12 @@ def adminPendientes(request):
 def listaArticulos(request):
 	return render(request, 'reservasApp/listaArticulos.html')
 
+def listArtAvan(request):
+    return render(request, 'reservasApp/busquedaAvanzada.html')
+
+'''definir'''
+def buscar(request):
+	return "hola"
+
+
+
