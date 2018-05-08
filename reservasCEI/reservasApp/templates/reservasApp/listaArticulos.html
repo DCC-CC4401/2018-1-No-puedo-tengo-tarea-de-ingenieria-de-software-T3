@@ -13,32 +13,117 @@
     <form method="get" action="listaArticulos"/>
     <input type="submit" value="Espacios" class="btnUnselected"/>
 
-    <div>
-        <img src="{% static 'reservasApp/icons/search.svg' %}" class="searchImage">
-        <form action="buscar">
-
-            <input type="text" name="search" class="searchBar"/>
-            <button type="submit" class="searchBtn">Buscar</button>
-        </form>
-    </div>
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
-    <a href="listaArticulos/avanzada" style="margin-left: 76%">Búsqueda Avanzada</a>
-
     <div class="row">
         <div class="col-lg-6">
             <div class="input-group">
-                <span class="input-group-addon" id="sizing-addon1">@</span>
-                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="glyphicon glyphicon-search input-group-addon" aria-hidden="true"
+                      style="background-color: white; border-right-color: white"></span>
+                <input type="text" class="form-control">
                 <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Go!</button>
+        <button class="btn btn-default" type="button">Buscar</button>
       </span>
             </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
     </div><!-- /.row -->
+
+    <a href="listaArticulos/avanzada" style="margin-left: 80%">Búsqueda Avanzada</a>
+
+    <div class="container">
+
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        <span class="dot-disponible"></span>
+                        Parlante
+                    </h4>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        <span class="dot-disponible"></span>
+                        Micro-componente
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="; margin-left: 12%">Top Pedidos</h3>
+    <hr class="separacion"></hr>
+
+    <div class="container">
+
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        <span class="dot-disponible"></span>
+                        Parlante
+                    </h4>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        <span class="dot-disponible"></span>
+                        Micro-componente
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        <span class="dot-disponible"></span>
+                        Micro-componente
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        <span class="dot-disponible"></span>
+                        Micro-componente
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        <span class="dot-disponible"></span>
+                        Micro-componente
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
