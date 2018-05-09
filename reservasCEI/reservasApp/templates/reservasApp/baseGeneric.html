@@ -16,23 +16,49 @@
 </head>
 <body>
 
-<div class="header">
-    <a href="http://localhost:8000" class="logo"><img src="{% static 'reservasApp/icons/cei_2014_png.png' %}"
-                                                      alt="Reservas CEI" width="96" height="96"></a>
-    <div class="header-right">
-        <div id="arrow-down-header-div"><img src="{% static 'reservasApp/icons/arrow-down.png' %}" alt="Opciones"
-                                             width="16" height="16"></div>
-        <div id="profile-header-div"><img src="{% static 'reservasApp/icons/user.png' %}" alt="Perfil" width="64"
-                                          height="64"></div>
-        <div id="info-header-div">
-            <b>Jocelyn Simmonds</b><br>
-            12.345.678-9<br>
-            jsimmonds@dcc.uchile.cl
-        </div>
-        <div id="notification-header-div"><img src="{% static 'reservasApp/icons/alarm.png' %}" alt="Notificaciones"
-                                               width="32" height="32"></div>
-    </div>
+<div class="container-fluid">
+	<div class="row" style="background-color:#f1f1f1; z-index: 2000;" data-spy="affix">
+		<div class="col-sm-1"></div>
+
+		<!-- Logo -->
+    	<div class="col-md-0 col-lg-1" style="height:128px;" >
+    		<div style="margin-top:16px;">
+    		 <a href="http://localhost:8000">
+    		 	<img src="{% static 'reservasApp/icons/cei_2014_png.png' %}" alt="Reservas CEI" width="96" height="96">
+    		 </a>
+    		</div>
+    	</div>
+
+    	<!-- Divisor -->
+    	<div class="col-sm-6"></div>
+
+    	<!-- Notificaciones -->
+    	<div class="col-sm-1" style="height:128px;">
+    		<div class="media">
+    			<div class="media-body" style="height:128px;"></div>
+	    		<div class="media-right media-middle">
+		    		<img src="{% static 'reservasApp/icons/alarm.png' %}" class="media-object" alt="Notificaciones" width="32" height="32">
+		    	</div>
+		    </div>
+    	</div>
+
+    	<!-- Informacion del Usuario -->
+    	<div class="col-sm-2">
+    		<div class="media">
+			  <div class="media-body" style="height:128px; text-align:right; vertical-align:middle;">
+			    <h4 class="media-heading">Jocelyn Simmonds</h4>
+			    <p>12.345.678-9<br> jsimmonds@dcc.uchile.cl</p>
+			  </div>
+			  <div class="media-right media-middle">
+			    <img src="{% static 'reservasApp/icons/user.png' %}" class="media-object" alt="Perfil" width="64" height="64">
+			  </div>
+			</div>
+    	</div>
+
+    	<div class="col-md-0 col-lg-1"></div>
+ 	</div>  
 </div>
+<div class="header-margin" style="height:128px"></div>
 
 {% block content %}My amazing site{% endblock %}
 
