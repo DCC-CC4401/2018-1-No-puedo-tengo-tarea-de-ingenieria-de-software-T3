@@ -1,0 +1,101 @@
+/**
+* basic layout
+*/
+
+/* colors */
+#header,
+#footer {
+	background-color: #f1f1f1;
+}
+
+#main-wrap {
+	background-color: #D9D9D9;
+}
+
+#sidebar {
+  background-color: #d2d2d2;
+}
+
+#content-wrap {
+	background-color: #c5c5c5;
+}
+
+#main-wrap-content {
+	background-color: #d2dae2;
+}
+
+#bottom-left-panel {
+	background-color: #d1ccc0;
+}
+
+#bottom-right-panel {
+	background-color: #f7f1e3;
+}
+
+/* sizes */
+#main-wrap > div {
+	min-height: 450px;
+}
+
+#header {
+	min-height: 100px;
+}
+#footer {
+	min-height: 40px;
+}
+
+#main-wrap > div { min-height: 450px; }
+
+#main-wrap-content {
+	min-height: 450px;
+}
+
+#bottom-left-panel,
+#bottom-right-panel {
+	min-height: 200px;
+}
+
+/* layout */
+#main-wrap {
+    /* overflow to handle inner floating block */
+    overflow: hidden;
+}
+
+#sidebar {
+    float: left;
+    width: 15%;
+    padding-top: 10%;
+}
+
+#content-wrap {
+    float: right;
+    width: 85%;
+}
+#bottom-left-panel {
+	float: left;
+	width: 49%;
+	padding-right: 1%;
+}
+#bottom-right-panel {
+	float: right;
+	width: 49%;
+	padding-left: 1%;
+}
+/* elements */
+.sidebar-icon {
+	display: block; /*for the img inside your div */
+	margin-left: auto;
+	margin-right: auto;
+}
+.center-table {
+	margin-left:auto;
+  	margin-right:auto;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  text-align: center;
+}
