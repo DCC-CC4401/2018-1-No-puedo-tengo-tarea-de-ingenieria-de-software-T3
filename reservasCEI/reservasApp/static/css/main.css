@@ -96,6 +96,7 @@ body {
 
 }
 
+
 .searchBar {
     width: 60%;
     float: left;
@@ -133,15 +134,12 @@ body {
     margin-left: 10%;
     width: 80%;
 }
-.col-lg-3{
-    margin-right: 5%;
-    margin-bottom: 0%;
+
+.container {
+    margin-left: 8%;
+    width: 1110px;
 }
 
-.container{
-    margin-left: 8%;
-    margin-bottom: 0%;
-}
 .card-footer {
     color: #0f0f0f;
 }
@@ -154,7 +152,15 @@ body {
     display: inline-block;
 }
 
-.separacion{
+.dot-nodisponible {
+    height: 15px;
+    width: 15px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.separacion {
     border-top: 1px solid #0e0c0c;
     border-top-width: 1px;
     border-top-style: solid;
@@ -163,3 +169,72 @@ body {
     color: black
 }
 
+.col-lg-3 {
+    width: 200px;
+    margin-right: 10px;
+}
+
+.card {
+}
+
+.portfolio-item {
+}
+
+.container-fluid {
+    width: 400px;
+    margin-left: 78%;
+}
+
+.card-body {
+}
+
+.container-btn {
+    margin-left: 39%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 300px;
+    shape-margin: ;
+}
+
+.btn-success {
+    background-color: green;
+}
+
+
+.btn-link {
+    margin-left: 78%
+}
+
+.card-footer {
+    width: 200px;
+}
+
+.container-busqAv {
+    margin-left: 60%;
+    margin-right: 2%;
+    height: 70%;
+    background-color: lightgray;
+}
+
+.form-control-1{
+    width: 80%;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.form-group{;
+    height: 59px;
+}
+
+.form-control{
+    margin-left: 30px;
+    width: 50%;
+}
+
+.btn-center{
+    margin-left: 30%;
+    background-color: white;
+    color: black;
+    width: 40%;
+    height: 40px;
+}
