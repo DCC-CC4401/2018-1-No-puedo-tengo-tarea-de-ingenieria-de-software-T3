@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-inline">
                     <div class="form-group">
-                        <select class="form-control" id="tipo">
+                        <select class="form-control2" id="tipo">
                             <option value="0" selected="">Tipo</option>
                             <option value="1">Featured</option>
                             <option value="2">Most popular</option>
@@ -44,7 +44,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" id="disponibilidad">
+                        <select class="form-control2" id="disponibilidad">
                             <option value="0" selected="">Disponibilidad</option>
                             <option value="1">Featured</option>
                             <option value="2">Most popular</option>
@@ -54,24 +54,17 @@
                     </div>
                 </div>
                 <button type="submit" class="btn-center btn-primary">Buscar</button>
-                <button type="button" class="btn btn-outline btn-link" style="margin-left: 35%" onclick="loadDoc()">Búsqueda Simple</button>
+                <button type="button" class="btn btn-outline btn-link" style="margin-left: 35%"
+                        onclick="loadDoc('busquedaSimple',myFunction, 'busquedaAv')">
+                    Búsqueda Simple
+                </button>
             </div>
         </div>
 
 
     </div>
 
-    <script language="javascript" type="text/javascript ">
-        function loadDoc() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("busquedaAv").innerHTML =
-                        this.responseText;
-                }
-            };
-            xhttp.open("GET", "articulos", true);
-            xhttp.send();
-        }
-    </script>
+
+
+
 {% endblock %}

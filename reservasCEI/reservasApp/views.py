@@ -34,6 +34,9 @@ def listaArticulos(request):
 def busquedaAvanzada(request):
     return render(request, 'reservasApp/busquedaAvanzada.html')
 
+def busquedaSimple(request):
+    return render(request, 'reservasApp/busquedaSimple.html')
+
 
 '''definir'''
 

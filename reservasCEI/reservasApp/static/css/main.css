@@ -218,16 +218,16 @@ body {
 .form-control-1{
     width: 80%;
     margin-top: 20px;
-    margin-left: 30px;
+    margin-left: 40px;
 }
 
 .form-group{;
     height: 59px;
 }
 
-.form-control{
-    margin-left: 30px;
-    width: 50%;
+.form-control2{
+    margin-left: 37px;
+    width: 80%;
 }
 
 .btn-center{

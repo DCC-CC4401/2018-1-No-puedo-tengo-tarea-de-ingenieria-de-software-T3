@@ -4,7 +4,23 @@
 
 {% block content %}
 
+    <script>
+        function loadDoc(url, cfunc, id) {
+            var xhttp;
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    cfunc(xhttp, id);
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
 
+        function myFunction(xhttp, id) {
+            document.getElementById(id).innerHTML = xhttp.responseText;
+        }
+    </script>
     <div class="container-btn">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
 
@@ -20,69 +36,10 @@
                 </form>
             </div>
         </div>
+
     </div>
 
-    <div id="busqueda">
-
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="input-group">
-                <span class="glyphicon glyphicon-search input-group-addon" aria-hidden="true"
-                      style="background-color: white; border-right-color: white"></span>
-                    <input type="text" class="form-control">
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Buscar</button>
-                    </span>
-                </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-        </div><!-- /.row -->
-        <button type="button" class="btn btn-outline btn-link" onclick="loadDoc()">Búsqueda Avanzada</button>
-
-        <div class="container">
-            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                <div class="card">
-                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-footer">
-                            <span class="dot-disponible"></span>
-                            <a href="#" style="color: black"> Parlante </a>
-                        </h4>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                <div class="card">
-                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-footer">
-                            <span class="dot-disponible"></span>
-                            <a href="#" style="color: black"> Micro-componente </a>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script language="javascript" type="text/javascript ">
-        function loadDoc() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("busqueda").innerHTML =
-                        this.responseText;
-                }
-            };
-            xhttp.open("GET", "busquedaAvanzada", true);
-            xhttp.send();
-        }
-    </script>
-
-
-
-
+    {% include 'reservasApp/busquedaSimple.html' %}
 
     <h3 style="; margin-left: 12%">Top Pedidos</h3>
     <hr class="separacion"></hr>

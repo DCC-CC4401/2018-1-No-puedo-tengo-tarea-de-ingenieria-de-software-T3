@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+{% block content %}
+
+    <div id="busqueda">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                <span class="glyphicon glyphicon-search input-group-addon" aria-hidden="true"
+                      style="background-color: white; border-right-color: white"></span>
+                    <input type="text" class="form-control">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Buscar</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </div><!-- /.row -->
+        <button type="button" class="btn btn-outline btn-link"
+                onclick="loadDoc('busquedaAvanzada',myFunction,'busqueda')">Búsqueda Avanzada
+        </button>
+
+        <div class="container">
+            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                <div class="card">
+                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                    <div class="card-body">
+                        <h4 class="card-footer">
+                            <span class="dot-disponible"></span>
+                            <a href="#" style="color: black"> Parlante </a>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                <div class="card">
+                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
+                    <div class="card-body">
+                        <h4 class="card-footer">
+                            <span class="dot-disponible"></span>
+                            <a href="#" style="color: black"> Micro-componente </a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
