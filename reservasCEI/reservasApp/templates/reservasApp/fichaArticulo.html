@@ -1,0 +1,28 @@
+{% extends "reservasApp/baseGeneric.html" %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
+
+    <div>
+    <h1>Mesa</h1> <h2>Dispoible</h2>
+    Aqui va la foto
+    </div>
+
+    <div>
+    <div>
+        <h2>Solicitar reserva</h2>
+        <form>
+            Fecha:
+            <input type="date" id="fecha">
+            Hora:
+            <input type="time" id="hora">
+        </form>
+    </div>
+    <div>
+        <h2>Historial reservas</h2>
+    </div>
+    </div>
+
+
+{% endblock %}

@@ -7,4 +7,5 @@ urlpatterns = [
     path('administrar/pendientes', views.adminPendientes, name='resPend'),
     path('listaArticulos', views.listaArticulos, name = 'listaArt'),
     path('listaArticulos/avanzada', views.listArtAvan, name='listArtAvan'),
+    path('fichaArticulo', views.fichaArticulo, name='fichaArticulo'),
 ]

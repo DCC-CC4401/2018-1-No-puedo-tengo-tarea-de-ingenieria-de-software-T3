@@ -13,9 +13,11 @@ def listaArticulos(request):
 def listArtAvan(request):
     return render(request, 'reservasApp/busquedaAvanzada.html')
 
+def fichaArticulo(request):
+	return render(request, 'reservasApp/fichaArticulo.html')
+
 '''definir'''
 def buscar(request):
 	return "hola"
-
 
 
