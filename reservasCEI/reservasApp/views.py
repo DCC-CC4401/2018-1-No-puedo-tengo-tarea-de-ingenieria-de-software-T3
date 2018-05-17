@@ -69,12 +69,6 @@ def generarHorario(espacio_id, dia, horario_espacio, h=9):
         if (h < 17):
             generarHorario(espacio_id, dia, horario_espacio,h+1)
 
-
-def fichaEspacio(request, espacio_id):
-    espacio = get_object_or_404(Espacio, id=espacio_id)
-    return render(request, 'reservasApp/fichaEspacio.html', {'espacio': espacio})
-
-
 def listaArticulos(request):
     return render(request, 'reservasApp/listaArticulos.html')
 
@@ -91,3 +85,6 @@ def busquedaSimple(request):
 
 def buscar(request):
     return "hola"
+
+def reservas(request):
+    return render(request, 'reservasApp/reservas.html')
