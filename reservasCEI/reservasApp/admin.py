@@ -4,7 +4,5 @@ from .models import *
 
 admin.site.register(Articulo)
 admin.site.register(Espacio)
-admin.site.register(FotoArticulo)
-admin.site.register(FotoEspacio)
 admin.site.register(ReservaArticulo)
 admin.site.register(ReservaEspacio)

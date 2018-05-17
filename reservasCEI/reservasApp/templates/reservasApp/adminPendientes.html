@@ -14,15 +14,19 @@
 		<div id="main-wrap-content">
 			<hr>
 			<h3 align="center">{{ semana }}</h3>
+			<br>
 			<table id="horario_principal" class="table-condensed center-table">
-			  <tr>
-			    <th> Horario </th>
-			    <th> Lunes </th>
-			    <th> Martes </th>
-			    <th> Miercoles </th>
-			    <th> Jueves </th>
-			    <th> Viernes </th>
-			  </tr>
+				<thead>
+				  <tr>
+				    <th> Horario </th>
+				    <th> Lunes </th>
+				    <th> Martes </th>
+				    <th> Miercoles </th>
+				    <th> Jueves </th>
+				    <th> Viernes </th>
+				  </tr>
+				</thead>
+				<tbody>
 				{% for h in horario %}
 					<tr>
 						{% for h_sub in h %}
@@ -30,6 +34,7 @@
 						{% endfor %}
 					</tr>
 				{% endfor %}
+			</tbody>
 			</table>
 			<br>
 			<div align="center">

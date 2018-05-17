@@ -1,7 +1,5 @@
 from django.urls import path, re_path
 from django.conf import settings
-from django.views.static import serve
-
 from . import views
 
 app_name = 'reservasApp'
