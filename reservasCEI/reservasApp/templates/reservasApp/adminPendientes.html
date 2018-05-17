@@ -10,12 +10,27 @@
 		<img class="sidebar-icon" src="{% static 'reservasApp/icons/list.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
 	</div>
 	<div id="content-wrap">
-		<hr>
-		<h1>Resumen de reservas de espacios</h1>
+		<h1 align="center">Resumen de Reservas de espacios</h1>
 		<div id="main-wrap-content">
-			<h3>Semana del XX al XX de XX</h3>
-			{% include 'reservasApp/_calendario.html' %}
-			<form class="" action="{% url 'reservasApp:cambiarespacio' %}" method="post">
+			<h3 align="center">{{ semana }}</h3>
+			<table id="horario_principal" class="center-table">
+			  <tr>
+			    <th> Horario </th>
+			    <th> Lunes </th>
+			    <th> Martes </th>
+			    <th> Miercoles </th>
+			    <th> Jueves </th>
+			    <th> Viernes </th>
+			  </tr>
+				{% for h in horario %}
+					<tr>
+						{% for h_sub in h %}
+							<td> {{h_sub}}</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</table>
+			<form method="post" action="{% url 'reservasApp:cambiarespacio'%}" >
 				{% csrf_token %}
 				{% for esp in espacios_total %}
 					{% if esp.id == espacio.id %} <!-- Falta agregar que sea de la semana -->
@@ -28,9 +43,13 @@
 					{% endif %}
 					<label for="espacio{{ forloop.counter }}">{{ esp.nombre }}</label>
 				{% endfor %}
-				<input type="submit" value="Cambiar espacio">
+				<input type="submit" nombre="Cambiar Espacio"/>
 			</form>
 		</div>
+
+
+
+
 
 		<div id="bottom-left-panel">
 			<h3>Pendientes</h3>
@@ -46,6 +65,7 @@
 	</div>
 </div>
 <div id="footer">
+	</script>
 	<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 </div>
 {% endblock %}
