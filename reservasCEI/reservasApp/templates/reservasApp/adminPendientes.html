@@ -12,8 +12,9 @@
 	<div id="content-wrap">
 		<h1 align="center">Resumen de Reservas de espacios</h1>
 		<div id="main-wrap-content">
+			<hr>
 			<h3 align="center">{{ semana }}</h3>
-			<table id="horario_principal" class="center-table">
+			<table id="horario_principal" class="table-condensed center-table">
 			  <tr>
 			    <th> Horario </th>
 			    <th> Lunes </th>
@@ -30,37 +31,24 @@
 					</tr>
 				{% endfor %}
 			</table>
-			<form method="post" action="{% url 'reservasApp:cambiarespacio'%}" >
-				{% csrf_token %}
-				{% for esp in espacios_total %}
-					{% if esp.id == espacio.id %} <!-- Falta agregar que sea de la semana -->
+			<br>
+			<div align="center">
+				<form method="post" action="{% url 'reservasApp:espacios'%}" >
+					{% csrf_token %}
+					{% for esp in espacios_total %}
+						{% if esp.id == espacio.id %} <!-- Falta agregar que sea de la semana -->
+							<input type="radio" id="espacio{{ forloop.counter }}"
+										 checked="checked" name="espacio_selec"
+										 value="{{ esp.id }}"/>
+						{% else %}
 						<input type="radio" id="espacio{{ forloop.counter }}"
-									 checked="checked" name="espacio_selec"
-									 value="{{ esp.id }}"/>
-					{% else %}
-					<input type="radio" id="espacio{{ forloop.counter }}"
-								 name="espacio_selec" value="{{ esp.id }}"/>
-					{% endif %}
-					<label for="espacio{{ forloop.counter }}">{{ esp.nombre }}</label>
-				{% endfor %}
-				<input type="submit" nombre="Cambiar Espacio"/>
-			</form>
-		</div>
-
-
-
-
-
-		<div id="bottom-left-panel">
-			<h3>Pendientes</h3>
-				<hr>
-				{% include 'reservasApp/_calendario.html' %}
-		</div>
-
-		<div id="bottom-right-panel">
-			<h3>Pedidos</h3>
-				<hr>
-				{% include 'reservasApp/_calendario.html' %}
+									 name="espacio_selec" value="{{ esp.id }}"/>
+						{% endif %}
+						<label for="espacio{{ forloop.counter }}">{{ esp.nombre }}</label>
+					{% endfor %}
+					<input type="submit" value="Cambiar Espacio"/>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

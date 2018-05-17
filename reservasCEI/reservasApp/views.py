@@ -13,24 +13,8 @@ def index(request):
 
 def espacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
     espacios_total = Espacio.objects.all()
-
-    espacio = Espacio.objects.get(id=espacio_id)
-    lunes = dia_actual - timedelta(days = dia_actual.weekday())
-    horario_espacio = []
-    generarHorario(espacio_id, lunes, horario_espacio)
-
-    lunes_str = lunes.strftime("%d/%m")
-    viernes_str = (lunes + timedelta(days = 4)).strftime("%d/%m")
-    semana = "Semana del " + lunes_str + " al " + viernes_str + " del " + str(dia_actual.year)
-
-    context = {'espacio': espacio, 'espacios_total': espacios_total,
-               'horario': horario_espacio, 'semana': semana,}
-    return render(request, 'reservasApp/adminPendientes.html', context)
-
-def cambiarespacio(request, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
-    espacio_id = int(request.POST['espacio_selec'])
-    espacios_total = Espacio.objects.all()
-
+    if (request.POST):
+        espacio_id = int(request.POST['espacio_selec'])
     espacio = Espacio.objects.get(id=espacio_id)
     lunes = dia_actual - timedelta(days = dia_actual.weekday())
     horario_espacio = []
