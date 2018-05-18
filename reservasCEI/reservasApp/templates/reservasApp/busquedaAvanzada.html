@@ -4,30 +4,34 @@
 
     <div id="busquedaAv">
         <div class="container">
-            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                <div class="card">
-                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-footer">
-                            <span class="dot-disponible"></span>
-                            <a href="#" style="color: black"> Parlante </a>
-                        </h4>
 
-                    </div>
-                </div>
-            </div>
+            <br method='post' action="{% url 'reservasApp:busquedaAvanzada' %}">
 
-            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                <div class="card">
-                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-footer">
-                            <span class="dot-disponible"></span>
-                            <a href="#" style="color: black"> Micro-componente </a>
-                        </h4>
+            {% csrf_token %}
+
+            {% for art in articulos_total %}
+
+                {% if art.id < 4 %}
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                        <div class="card">
+                            <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
+                                                        alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-footer">
+                                    <span class="dot-disponible"></span>
+                                    <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                                </h4>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+
+                {% endif %}
+
+
+            {% endfor %}
+            <!-- Container para busqueda avanzada -->
             <div class="container-busqAv img-rounded">
 
                 <div class="form-group">
@@ -59,6 +63,33 @@
                     Búsqueda Simple
                 </button>
             </div>
+            {% for art in articulos_total %}
+
+                {% if art.id >= 4 %}
+
+
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                        <div class="card">
+                            <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
+                                                        alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-footer">
+                                    <span class="dot-disponible"></span>
+                                    <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                                </h4>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+            {% endfor %}
+
+            </form>
+
+
         </div>
 
 
