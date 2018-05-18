@@ -96,7 +96,6 @@ body {
 
 }
 
-
 .searchBar {
     width: 60%;
     float: left;
@@ -199,7 +198,6 @@ body {
     background-color: green;
 }
 
-
 .btn-link {
     margin-left: 78%
 }
@@ -209,31 +207,47 @@ body {
 }
 
 .container-busqAv {
+    margin-top: 10px;
     margin-left: 60%;
     margin-right: 2%;
-    height: 70%;
     background-color: lightgray;
+    position: static;
+    width: 410px;
+    height: 207px;
 }
 
-.form-control-1{
+.small-container {
+    width: 650px;
+    height: 207px;
+}
+
+.form-control-1 {
     width: 80%;
     margin-top: 20px;
     margin-left: 40px;
+    position: static;
 }
 
-.form-group{;
+.form-control2 {
+    margin-left: 37px;
+    width: 80%;
+    position: static;
+}
+
+.form-group {;
     height: 59px;
 }
 
-.form-control2{
-    margin-left: 37px;
-    width: 80%;
-}
-
-.btn-center{
+.btn-center {
     margin-left: 30%;
     background-color: white;
     color: black;
     width: 40%;
     height: 40px;
+}
+
+.card {
+    margin-top: 10px;
+    width: 200px;
+    height: 180px;
 }

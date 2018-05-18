@@ -9,6 +9,8 @@
 
             {% csrf_token %}
 
+            <!-- For para los primeros 3 elementos-->
+
             {% for art in articulos_total %}
 
                 {% if art.id < 4 %}
@@ -19,18 +21,20 @@
                                                         alt=""></a>
                             <div class="card-body">
                                 <h4 class="card-footer">
-                                    <span class="dot-disponible"></span>
+                                    {% if art.estado == 1 %}
+                                        <span class="dot-disponible"></span>
+                                    {% else %}
+                                        <span class="dot-nodisponible"></span>
+                                    {% endif %}
                                     <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
                                 </h4>
 
                             </div>
                         </div>
                     </div>
-
                 {% endif %}
+            {% endfor %} <!-- /For primeros 3 elementos-->
 
-
-            {% endfor %}
             <!-- Container para busqueda avanzada -->
             <div class="container-busqAv img-rounded">
 
@@ -63,6 +67,8 @@
                     Búsqueda Simple
                 </button>
             </div>
+
+            <!-- For para todos los demas elementos -->
             {% for art in articulos_total %}
 
                 {% if art.id >= 4 %}
@@ -75,7 +81,11 @@
                                                         alt=""></a>
                             <div class="card-body">
                                 <h4 class="card-footer">
-                                    <span class="dot-disponible"></span>
+                                    {% if art.estado == 1 %}
+                                        <span class="dot-disponible"></span>
+                                    {% else %}
+                                        <span class="dot-nodisponible"></span>
+                                    {% endif %}
                                     <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
                                 </h4>
 
@@ -85,7 +95,7 @@
                 {% endif %}
 
 
-            {% endfor %}
+            {% endfor %} <!-- /For demas elementos-->
 
             </form>
 

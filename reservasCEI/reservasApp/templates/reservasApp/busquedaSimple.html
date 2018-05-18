@@ -16,35 +16,38 @@
                 </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
+        <!-- Cambiar a busqueda avanzada -->
         <button type="button" class="btn btn-outline btn-link"
                 onclick="loadDoc('busquedaAvanzada',myFunction,'busqueda')">Búsqueda Avanzada
         </button>
 
         <div class="container">
-            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                <div class="card">
-                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-footer">
-                            <span class="dot-disponible"></span>
-                            <a href="#" style="color: black"> Parlante </a>
-                        </h4>
 
-                    </div>
-                </div>
-            </div>
+            <form method='post' action="{% url 'reservasApp:busquedaSimple' %}">
 
-            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                <div class="card">
-                    <a href="#"><img class="card-img-top" src="http://placehold.it/200x150" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-footer">
-                            <span class="dot-disponible"></span>
-                            <a href="#" style="color: black"> Micro-componente </a>
-                        </h4>
+                {% csrf_token %}
+                {% for arts in articulos_total_simple %}
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                        <div class="card">
+                            <a href="{{ arts.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
+                                                         alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-footer">
+                                    {% if arts.estado == 1 %}
+                                        <span class="dot-disponible"></span>
+                                    {% else %}
+                                        <span class="dot-nodisponible"></span>
+                                    {% endif %}
+                                    <a href="{{ arts.id }}" style="color: black"> {{ arts.nombre }} </a>
+                                </h4>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                {% endfor %}
+
+            </form>
         </div>
     </div>
 

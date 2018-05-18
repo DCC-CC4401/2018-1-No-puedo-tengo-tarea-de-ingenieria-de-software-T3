@@ -4,6 +4,7 @@
 
 {% block content %}
 
+    <!-- Ajax de busquedas -->
     <script>
         function loadDoc(url, cfunc, id) {
             var xhttp;
@@ -21,6 +22,8 @@
             document.getElementById(id).innerHTML = xhttp.responseText;
         }
     </script>
+
+    <!-- Botones articulo|espacio -->
     <div class="container-btn">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
 
