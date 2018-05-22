@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from datetime import *
 from django.utils.timezone import utc
 from django.shortcuts import redirect
+from reservasApp.forms import NewPersonForm
 
 
 def index(request):
@@ -116,6 +117,19 @@ def busquedaSimple(request, articulo_id=1):
 
     return render(request, 'reservasApp/busquedaSimple.html', context)
 
+def crearUsuario(request):
+    if request.method == 'POST':
+        form = NewPersonForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = NewPersonForm()
+    return render(request, 'reservasApp/crearUsuario.html', {'form': form})
 
 '''definir'''
 
