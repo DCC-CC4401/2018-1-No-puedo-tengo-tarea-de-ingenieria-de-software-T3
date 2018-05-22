@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import *
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.models import User
 
 ESTADO = (
     (0, 'Perdido'),
@@ -57,3 +58,18 @@ class FotoArticulo (models.Model):
 class FotoEspacio (models.Model):
     espacio = models.ForeignKey(Espacio, on_delete=models.CASCADE)
     ruta = models.ImageField(blank=True)
+    
+'''
+Usuarios
+'''
+class Person(User):
+    
+    def __init__(self, *args, **kwargs):
+        super(Person, self).__init__(*args, **kwargs)
+        self._meta.get_field('username').validators = [RegexValidator(
+                                                                    regex='\d(\d?)[.](\d{3})[.](\d{3})[-](\d|[kK])',
+                                                                    message='Debe ingresar el rut con puntos y digito verificador. (Por ejemplo: 12.345.678-9)',
+                                                                    code='invalid-username'),]
+    
+    class Meta:
+        proxy = True
