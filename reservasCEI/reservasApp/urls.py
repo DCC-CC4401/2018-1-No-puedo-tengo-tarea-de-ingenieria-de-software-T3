@@ -11,4 +11,5 @@ urlpatterns = [
     path('busquedaAvanzada', views.busquedaAvanzada),
     path('busquedaSimple', views.busquedaSimple),
     re_path(r'^reservas/$', views.reservas, name='reservas'),
+    path('crearUsuario', views.crearUsuario, name='crearUsuario'),
 ]
