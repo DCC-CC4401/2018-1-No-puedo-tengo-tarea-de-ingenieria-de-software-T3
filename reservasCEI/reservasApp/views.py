@@ -5,7 +5,7 @@ from django.utils.timezone import utc
 
 from datetime import *
 
-from reservasApp.forms import NewPersonForm
+from reservasApp.forms import NewPersonForm, LoginForm
 from .models import *
 
 def index(request):
@@ -129,6 +129,19 @@ def crearUsuario(request):
     else:
         form = NewPersonForm()
     return render(request, 'reservasApp/crearUsuario.html', {'form': form})
+
+def loginView(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('reservasApp:listaArt')
+    else:
+        form = LoginForm()
+    return render(request, 'reservasApp/login.html', {'form': form})
 
 def logoutView(request):
     logout(request)

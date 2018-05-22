@@ -8,6 +8,28 @@ class EspacioForm(forms.Form):
     #your_name = forms.CharField(label='Your name', max_length=100)
     espacio_id = forms.IntegerField()
 
+class LoginForm(forms.Form):
+    username = forms.CharField(label='RUT ',
+                               widget=forms.TextInput(
+                                   attrs={
+                                       'class':'form-control',
+                                       'autofocus': True
+                                   }
+                               ),
+                               validators=[RegexValidator(
+                                  regex='\d(\d?)[.](\d{3})[.](\d{3})[-](\d|[kK])',
+                                  message='Debe ingresar el rut con puntos y digito verificador. (Por ejemplo: 12.345.678-9)',
+                                  code='invalid_username'),],
+                               help_text='Tu RUT con puntos, guion y digito verificador.',
+                              )
+    
+    password = forms.CharField(label='Contraseña',
+                                 widget=forms.PasswordInput(
+                                     attrs={'class':'form-control'}
+                                 ),
+                                strip=False,
+                                )
+    
 class NewPersonForm(ModelForm):
     error_messages = {
         'password_mismatch': "Las contraseñas no son iguales.",

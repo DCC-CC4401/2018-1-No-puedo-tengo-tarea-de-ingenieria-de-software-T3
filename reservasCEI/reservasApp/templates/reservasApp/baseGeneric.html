@@ -25,15 +25,22 @@
 <body>
 <div class="container-fluid" style="background-color: #f1f1f1" data-spy="affix">
     <div class="row">
-        <div class="col-sm-6" style="padding: 10px">
+        <div class="col-sm-6" style="padding: 5px">
         	<a href="{% url 'reservasApp:listaArt' %}">
-                <img class="img-responsive" src="{% static 'reservasApp/icons/cei_2014_png.png' %}" alt="Reservas CEI" width="96" height="96">
+                <img class="btn img-responsive" src="{% static 'reservasApp/icons/cei_2014_png.png' %}" alt="Reservas CEI" width="126" height="126">
             </a>
         </div>
         <div class="col-sm-6">
         {% if user.is_authenticated %}
             <div class="pull-right" style="padding-top: 50px">
-                <img class="img-responsive" src="{% static 'reservasApp/icons/arrow-down.png' %}" alt="Opciones" width="16" height="16">
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{% url 'reservasApp:logout' %}">Cerrar sesion</a></li>
+                  </ul>
+                 </div>
             </div>
             <div class="pull-right" style="padding: 26px">
             	<img class="img-responsive" src="{% static 'reservasApp/icons/user.png' %}" alt="Perfil" width="64" height="64">
@@ -45,7 +52,7 @@
                 	{{request.user.email}}    
                 </p>
             </div>
-            <div class="pull-right" style="padding-top: 45px; padding-right: 15px">
+            <div class="pull-right" style="padding-top: 45px; padding-right: 15px"> 
             	<img class="img-responsive" src="{% static 'reservasApp/icons/alarm.png' %}" alt="Notificaciones" width="32" height="32">
             </div>
             
@@ -53,7 +60,7 @@
             <div class="text-right">
                 <br>
                 Debes iniciar sesión para poder realizar reservas.<br>
-                <a href="{% url 'reservasApp:crearUsuario' %}"> Iniciar sesion </a><br>
+                <a href="{% url 'reservasApp:login' %}"> Iniciar sesion </a><br>
                 <a href="{% url 'reservasApp:crearUsuario' %}"> Registrarte </a>
             </div>
         {% endif %}
