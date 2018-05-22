@@ -24,9 +24,9 @@
         <div id="profile-header-div"><img src="{% static 'reservasApp/icons/user.png' %}" alt="Perfil" width="64"
                                           height="64"></div>
         <div id="info-header-div">
-            <b>Jocelyn Simmonds</b><br>
-            12.345.678-9<br>
-            jsimmonds@dcc.uchile.cl
+            <b>{{request.user.first_name}} {{request.user.last_name}}</b><br>
+            {{request.user.username}}<br>
+            {{request.user.email}}
         </div>
         <div id="notification-header-div"><img src="{% static 'reservasApp/icons/alarm.png' %}" alt="Notificaciones"
                                                width="32" height="32"></div>

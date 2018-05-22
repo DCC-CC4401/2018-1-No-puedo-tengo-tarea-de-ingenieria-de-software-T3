@@ -1,13 +1,12 @@
-from django.http import HttpResponse
-from django.http import Http404
-from django.shortcuts import render, get_object_or_404
-from .models import *
-from django.http import JsonResponse
-from datetime import *
+from django.contrib.auth import login, authenticate
+from django.http import HttpResponse, Http404, JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import utc
-from django.shortcuts import redirect
-from reservasApp.forms import NewPersonForm
 
+from datetime import *
+
+from reservasApp.forms import NewPersonForm
+from .models import *
 
 def index(request):
     return HttpResponse("Indice de la pagina. Esto es lo primero que los usuarios ven.")
@@ -126,7 +125,7 @@ def crearUsuario(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return redirect('reservasApp:listaArt')
     else:
         form = NewPersonForm()
     return render(request, 'reservasApp/crearUsuario.html', {'form': form})
