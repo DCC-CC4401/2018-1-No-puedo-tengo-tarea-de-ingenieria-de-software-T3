@@ -5,7 +5,7 @@ from . import views
 app_name = 'reservasApp'
 
 urlpatterns = [
-    re_path(r'^$', views.index, name='index'),
+    re_path(r'^$', views.listaArticulos, name='index'),
     re_path(r'^espacios/$', views.espacios, name='espacios'),
     path('articulos', views.listaArticulos, name='listaArt'),
     path('busquedaAvanzada', views.busquedaAvanzada, name='busquedaAvanzada'),
