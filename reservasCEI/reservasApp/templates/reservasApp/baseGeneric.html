@@ -7,32 +7,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap -->
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{% static 'js/bootstrap.js'%}"></script>
+    
+    <style>
+        .affix {
+          top:0;
+          width: 100%;
+          z-index: 9999 !important;
+  		}
+    </style>
 </head>
 <body>
-<div class="header">
-    <a href="http://localhost:8000" class="logo"><img src="{% static 'reservasApp/icons/cei_2014_png.png' %}"
-                                                      alt="Reservas CEI" width="96" height="96"></a>
-    <div class="header-right">
-        <div id="arrow-down-header-div"><img src="{% static 'reservasApp/icons/arrow-down.png' %}" alt="Opciones"
-                                             width="16" height="16"></div>
-        <div id="profile-header-div"><img src="{% static 'reservasApp/icons/user.png' %}" alt="Perfil" width="64"
-                                          height="64"></div>
-        <div id="info-header-div">
-            <b>{{request.user.first_name}} {{request.user.last_name}}</b><br>
-            {{request.user.username}}<br>
-            {{request.user.email}}
+<div class="container-fluid" style="background-color: #f1f1f1" data-spy="affix">
+    <div class="row">
+        <div class="col-sm-6" style="padding: 10px">
+        	<a href="{% url 'reservasApp:listaArt' %}">
+                <img class="img-responsive" src="{% static 'reservasApp/icons/cei_2014_png.png' %}" alt="Reservas CEI" width="96" height="96">
+            </a>
         </div>
-        <div id="notification-header-div"><img src="{% static 'reservasApp/icons/alarm.png' %}" alt="Notificaciones"
-                                               width="32" height="32"></div>
-    </div>
+        <div class="col-sm-6">
+        {% if user.is_authenticated %}
+            <div class="pull-right" style="padding-top: 50px">
+                <img class="img-responsive" src="{% static 'reservasApp/icons/arrow-down.png' %}" alt="Opciones" width="16" height="16">
+            </div>
+            <div class="pull-right" style="padding: 26px">
+            	<img class="img-responsive" src="{% static 'reservasApp/icons/user.png' %}" alt="Perfil" width="64" height="64">
+            </div>
+            <div class="pull-right" style="padding-top: 30px">
+                <p class="text-right">
+            		<b>{{request.user.first_name}} {{request.user.last_name}}</b><br>
+                	{{request.user.username}}<br>
+                	{{request.user.email}}    
+                </p>
+            </div>
+            <div class="pull-right" style="padding-top: 45px; padding-right: 15px">
+            	<img class="img-responsive" src="{% static 'reservasApp/icons/alarm.png' %}" alt="Notificaciones" width="32" height="32">
+            </div>
+            
+        {% else %}
+            <div class="text-right">
+                <br>
+                Debes iniciar sesión para poder realizar reservas.<br>
+                <a href="{% url 'reservasApp:crearUsuario' %}"> Iniciar sesion </a><br>
+                <a href="{% url 'reservasApp:crearUsuario' %}"> Registrarte </a>
+            </div>
+        {% endif %}
+        </div>
+  	</div>
 </div>
+    
 
+<div class="container-fluid" style="min-height:130px">
+</div>
+    
 {% block content %}
 
 {% endblock %}

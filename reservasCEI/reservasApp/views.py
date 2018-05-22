@@ -1,4 +1,4 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import utc
@@ -129,6 +129,10 @@ def crearUsuario(request):
     else:
         form = NewPersonForm()
     return render(request, 'reservasApp/crearUsuario.html', {'form': form})
+
+def logoutView(request):
+    logout(request)
+    return redirect('reservasApp:listaArt')
 
 '''definir'''
 
