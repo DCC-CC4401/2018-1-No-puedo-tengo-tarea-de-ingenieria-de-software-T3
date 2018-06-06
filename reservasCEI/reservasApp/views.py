@@ -1,12 +1,11 @@
 from django.contrib.auth import login, logout, authenticate
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import utc
 
-from datetime import *
-
-from reservasApp.forms import NewPersonForm, LoginForm
+from .forms import NewPersonForm, LoginForm
 from .models import *
+
 
 def index(request):
     return HttpResponse("Indice de la pagina. Esto es lo primero que los usuarios ven.")
@@ -77,44 +76,34 @@ def fichaEspacio(request, espacio_id):
     return render(request, 'reservasApp/fichaEspacio.html', {'espacio': espacio})
 
 
-def listaArticulos(request):
-    return render(request, 'reservasApp/listaArticulos.html')
-
-
-def busquedaAvanzada(request, articulo_id=1):
-    articulos_total = Articulo.objects.all()
-
-    articulo = Articulo.objects.get(id=articulo_id)
-    articulo_nombre = Articulo.nombre
-    estado = Articulo.estado
-
-    foto_articulo = FotoArticulo.objects.get(id=articulo_id)
+def listaArticulos(request, articulo_id=1):
+    articulos = Articulo.objects.all()
 
     context = {
-        'articulo': articulo, 'articulos_total': articulos_total,
-        'articulo_nombre': articulo_nombre, 'estado': estado,
-        'foto_articulo': foto_articulo
+        'articulos': articulos
     }
 
-    return render(request, 'reservasApp/busquedaAvanzada.html', context)
+    return render(request, 'reservasApp/listaArticulos.html', context)
 
 
-def busquedaSimple(request, articulo_id=1):
-    articulos_total_simple = Articulo.objects.all()
 
-    articulo_simple = Articulo.objects.get(id=articulo_id)
-    articulo_nombre_simple = Articulo.nombre
-    estado_simple = Articulo.estado
+def busquedaSimple(request):
+    if (request.method == 'POST'):
+        articulo = request.POST['articulo']
+        print(articulo)
+        inventario = Articulo.objects.filter(nombre=articulo)
 
-    foto_articulo_simple = FotoArticulo.objects.get(id=articulo_id)
+        print("if")
+        return render(request, 'reservasApp/listaArticulos.html', {'articulos': inventario})  # redirecciona a localhost:8000
+    else:
+        print("else")
+        articulos = Articulo.objects.all()
+        return render(request, 'reservasApp/busquedaSimple.html',{'articulos': articulos})
 
-    context = {
-        'articulo_simple': articulo_simple, 'articulos_total_simple': articulos_total_simple,
-        'articulo_nombre_simple': articulo_nombre_simple, 'estado_simple': estado_simple,
-        'foto_articulo_simple': foto_articulo_simple
-    }
 
-    return render(request, 'reservasApp/busquedaSimple.html', context)
+def busquedaAvanzada(request):
+    articulos = Articulo.objects.all()
+    return render(request, 'reservasApp/busquedaAvanzada.html',{'articulos': articulos})
 
 def crearUsuario(request):
     if request.method == 'POST':
@@ -130,6 +119,8 @@ def crearUsuario(request):
         form = NewPersonForm()
     return render(request, 'reservasApp/crearUsuario.html', {'form': form})
 
+
+
 def loginView(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -143,15 +134,15 @@ def loginView(request):
         form = LoginForm()
     return render(request, 'reservasApp/login.html', {'form': form})
 
+
 def logoutView(request):
     logout(request)
     return redirect('reservasApp:listaArt')
 
+
 '''definir'''
 
 
-def buscar(request):
-    return "hola"
 
 
 def reservas(request):

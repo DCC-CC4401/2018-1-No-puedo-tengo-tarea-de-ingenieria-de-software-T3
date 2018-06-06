@@ -1,56 +1,55 @@
-<!DOCTYPE html>
-
-{% block content %}
-
-    <div id="busqueda">
-
+<div id="busqueda">
+    <form action="{% url 'reservasApp:busquedaSimple' %}" method="post">
+        {% csrf_token %}
         <div class="row">
             <div class="col-lg-6">
                 <div class="input-group">
+
                 <span class="glyphicon glyphicon-search input-group-addon" aria-hidden="true"
                       style="background-color: white; border-right-color: white"></span>
-                    <input type="text" class="form-control">
+
+
+                    <input type="text" class="form-control" name="articulo" id="articulo">
+
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button">Buscar</button>
                     </span>
+
                 </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
-        <!-- Cambiar a busqueda avanzada -->
-        <button type="button" class="btn btn-outline btn-link"
-                onclick="loadDoc('busquedaAvanzada',myFunction,'busqueda')">Búsqueda Avanzada
-        </button>
+    </form>
 
-        <div class="container">
+    <!-- Cambiar a busqueda avanzada -->
+    <button type="button" class="btn btn-outline btn-link"
+            onclick="loadDoc('busquedaAvanzada',myFunction,'busqueda')">Búsqueda Avanzada
+    </button>
 
-            <form method='post' action="{% url 'reservasApp:busquedaSimple' %}">
+    <div class="container">
 
-                {% csrf_token %}
-                {% for arts in articulos_total_simple %}
+        {% for art in articulos %}
 
-                    <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                        <div class="card">
-                            <a href="{{ arts.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
-                                                         alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-footer">
-                                    {% if arts.estado == 1 %}
-                                        <span class="dot-disponible"></span>
-                                    {% else %}
-                                        <span class="dot-nodisponible"></span>
-                                    {% endif %}
-                                    <a href="{{ arts.id }}" style="color: black"> {{ arts.nombre }} </a>
-                                </h4>
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card">
+                <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
+                                             alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        {% if art.estado == 1 %}
+                        <span class="dot-disponible"></span>
+                        {% else %}
+                        <span class="dot-nodisponible"></span>
+                        {% endif %}
+                        <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                    </h4>
 
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-
-            </form>
+                </div>
+            </div>
         </div>
+        {% endfor %}
+
+
     </div>
+</div>
 
 
-
-{% endblock %}

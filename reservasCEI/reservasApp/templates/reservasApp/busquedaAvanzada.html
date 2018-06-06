@@ -1,111 +1,88 @@
-<!DOCTYPE html>
+<div id="busquedaAv">
+    <div class="container">
+        <!-- For para los primeros 3 elementos-->
 
-{% block content %}
+        {% for art in articulos %}
 
-    <div id="busquedaAv">
-        <div class="container">
+        {% if art.id < 4 %}
 
-            <br method='post' action="{% url 'reservasApp:busquedaAvanzada' %}">
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card">
+                <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
+                                            alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        {% if art.estado == 1 %}
+                        <span class="dot-disponible"></span>
+                        {% else %}
+                        <span class="dot-nodisponible"></span>
+                        {% endif %}
+                        <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                    </h4>
 
-            {% csrf_token %}
-
-            <!-- For para los primeros 3 elementos-->
-
-            {% for art in articulos_total %}
-
-                {% if art.id < 4 %}
-
-                    <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                        <div class="card">
-                            <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
-                                                        alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-footer">
-                                    {% if art.estado == 1 %}
-                                        <span class="dot-disponible"></span>
-                                    {% else %}
-                                        <span class="dot-nodisponible"></span>
-                                    {% endif %}
-                                    <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
-                                </h4>
-
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %} <!-- /For primeros 3 elementos-->
-
-            <!-- Container para busqueda avanzada -->
-            <div class="container-busqAv img-rounded">
-
-                <div class="form-group">
-                    <input class="form-control-1" type="text" id="nombre">
                 </div>
-                <div class="form-inline">
-                    <div class="form-group">
-                        <select class="form-control2" id="tipo">
-                            <option value="0" selected="">Tipo</option>
-                            <option value="1">Featured</option>
-                            <option value="2">Most popular</option>
-                            <option value="3">Top rated</option>
-                            <option value="4">Most commented</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control2" id="disponibilidad">
-                            <option value="0" selected="">Disponibilidad</option>
-                            <option value="1">Featured</option>
-                            <option value="2">Most popular</option>
-                            <option value="3">Top rated</option>
-                            <option value="4">Most commented</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn-center btn-primary">Buscar</button>
-                <button type="button" class="btn btn-outline btn-link" style="margin-left: 35%"
-                        onclick="loadDoc('busquedaSimple',myFunction, 'busquedaAv')">
-                    Búsqueda Simple
-                </button>
             </div>
-
-            <!-- For para todos los demas elementos -->
-            {% for art in articulos_total %}
-
-                {% if art.id >= 4 %}
-
-
-
-                    <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-                        <div class="card">
-                            <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
-                                                        alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-footer">
-                                    {% if art.estado == 1 %}
-                                        <span class="dot-disponible"></span>
-                                    {% else %}
-                                        <span class="dot-nodisponible"></span>
-                                    {% endif %}
-                                    <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
-                                </h4>
-
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-
-
-            {% endfor %} <!-- /For demas elementos-->
-
-            </form>
-
-
         </div>
+        {% endif %}
+        {% endfor %} <!-- /For primeros 3 elementos-->
+
+        <!-- Container para busqueda avanzada -->
+        <div class="container-busqAv img-rounded">
+
+            <div class="form-group">
+                <input class="form-control-1" type="text" id="nombre">
+            </div>
+            <div class="form-inline">
+                <div class="form-group">
+                    <select class="form-control2" id="tipo">
+                        <option value="0" selected="">Tipo</option>
+                        <option value="1">Featured</option>
+                        <option value="2">Most popular</option>
+                        <option value="3">Top rated</option>
+                        <option value="4">Most commented</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control2" id="disponibilidad">
+                        <option value="0" selected="">Disponibilidad</option>
+                        <option value="1">Disponible</option>
+                        <option value="2">Perdido</option>
+                        <option value="3">En Préstamo</option>
+                        <option value="4">Perdido/Inutilizable</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-center btn-primary">Buscar</button>
+            <button type="button" class="btn btn-outline btn-link" style="margin-left: 35%"
+                    onclick="loadDoc('busquedaSimple',myFunction, 'busquedaAv')">
+                Búsqueda Simple
+            </button>
+        </div>
+
+        <!-- For para todos los demas elementos -->
+        {% for art in articulos %}
+        {% if art.id >= 4 %}
+
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <div class="card">
+                <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
+                                            alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-footer">
+                        {% if art.estado == 1 %}
+                        <span class="dot-disponible"></span>
+                        {% else %}
+                        <span class="dot-nodisponible"></span>
+                        {% endif %}
+                        <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                    </h4>
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %} <!-- /For demas elementos-->
 
 
     </div>
-
-
-
-
-{% endblock %}
+</div>
