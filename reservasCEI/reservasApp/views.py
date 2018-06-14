@@ -86,24 +86,62 @@ def listaArticulos(request, articulo_id=1):
     return render(request, 'reservasApp/listaArticulos.html', context)
 
 
-
+# Falta mejorar la busqueda para ignorar mayusculas
 def busquedaSimple(request):
     if (request.method == 'POST'):
         articulo = request.POST['articulo']
-        print(articulo)
         inventario = Articulo.objects.filter(nombre=articulo)
 
-        print("if")
-        return render(request, 'reservasApp/listaArticulos.html', {'articulos': inventario})  # redirecciona a localhost:8000
+        return render(request, 'reservasApp/listaArticulos.html',
+                      {'articulos': inventario})  # redirecciona a localhost:8000
+
     else:
-        print("else")
         articulos = Articulo.objects.all()
-        return render(request, 'reservasApp/busquedaSimple.html',{'articulos': articulos})
+        return render(request, 'reservasApp/busquedaSimple.html', {'articulos': articulos})
 
 
 def busquedaAvanzada(request):
-    articulos = Articulo.objects.all()
-    return render(request, 'reservasApp/busquedaAvanzada.html',{'articulos': articulos})
+    if (request.method == 'POST'):
+        articulo = request.POST['articulo']
+        tipo = request.POST['tipo']
+        estado = request.POST['estado']
+
+        # campos estado y tipo existen
+        if (estado != "4" and tipo != "0"):
+            if (articulo != ""):  # campo articulo existe
+                inventario = Articulo.objects.filter(nombre=articulo, estado=estado, tipo=tipo)
+            else:  # campo articulo no existe
+                inventario = Articulo.objects.filter(estado=estado, tipo=tipo)
+
+        # campo estado existe pero no tipo
+        elif (estado != "4"):
+            if (articulo != ""):
+                inventario = Articulo.objects.filter(nombre=articulo, estado=estado)
+            else:
+                inventario = Articulo.objects.filter(estado=estado)
+
+        # campo tipo existe pero no estado
+        elif (tipo != "0"):
+            if (articulo != ""):  # campo articulo existe
+                inventario = Articulo.objects.filter(nombre=articulo, tipo=tipo)
+            else:  # campo articulo no existe
+                inventario = Articulo.objects.filter(tipo=tipo)
+
+        # campo articulo pero no tipo ni estado
+        elif (articulo != ""):
+            inventario = Articulo.objects.filter(nombre=articulo)
+
+        # Ningun campo existe
+        else:
+            inventario = Articulo.objects.all()
+
+        return render(request, 'reservasApp/listaArticulos.html', {'articulos': inventario})
+
+    else:
+        articulos = Articulo.objects.all()
+        print("hola")
+        return render(request, 'reservasApp/busquedaAvanzada.html', {'articulos': articulos})
+
 
 def crearUsuario(request):
     if request.method == 'POST':
@@ -118,7 +156,6 @@ def crearUsuario(request):
     else:
         form = NewPersonForm()
     return render(request, 'reservasApp/crearUsuario.html', {'form': form})
-
 
 
 def loginView(request):
@@ -141,8 +178,6 @@ def logoutView(request):
 
 
 '''definir'''
-
-
 
 
 def reservas(request):

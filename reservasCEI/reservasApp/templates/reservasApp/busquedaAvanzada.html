@@ -27,46 +27,48 @@
         {% endfor %} <!-- /For primeros 3 elementos-->
 
         <!-- Container para busqueda avanzada -->
-        <div class="container-busqAv img-rounded">
+        <form action="{% url 'reservasApp:busquedaAvanzada' %}" method="post">
+            {% csrf_token %}
+            <div class="container-busqAv img-rounded">
 
-            <div class="form-group">
-                <input class="form-control-1" type="text" id="nombre">
-            </div>
-            <div class="form-inline">
                 <div class="form-group">
-                    <select class="form-control2" id="tipo">
-                        <option value="0" selected="">Tipo</option>
-                        <option value="1">Featured</option>
-                        <option value="2">Most popular</option>
-                        <option value="3">Top rated</option>
-                        <option value="4">Most commented</option>
-                    </select>
+                    <input class="form-control-1" type="text" name="articulo" id="articulo">
                 </div>
-                <div class="form-group">
-                    <select class="form-control2" id="disponibilidad">
-                        <option value="0" selected="">Disponibilidad</option>
-                        <option value="1">Disponible</option>
-                        <option value="2">Perdido</option>
-                        <option value="3">En Préstamo</option>
-                        <option value="4">Perdido/Inutilizable</option>
-                    </select>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control2" name="tipo" id="tipo">
+                            <option value="0" selected="">Tipo</option>
+                            <option value="1">Featured</option>
+                            <option value="2">Most popular</option>
+                            <option value="3">Top rated</option>
+                            <option value="4">Most commented</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control2" name="estado" id="estado">
+                            <option value="4" selected="">Estado</option>
+                            <option value="1">Disponible</option>
+                            <option value="0">Perdido</option>
+                            <option value="2">En Préstamo</option>
+                            <option value="3">Perdido/Inutilizable</option>
+                        </select>
+                    </div>
                 </div>
+                <button type="submit" class="btn-center btn-primary">Buscar</button>
+                <button type="button" class="btn btn-outline btn-link" style="margin-left: 35%"
+                        onclick="loadDoc('busquedaSimple',myFunction, 'busquedaAv')">
+                    Búsqueda Simple
+                </button>
             </div>
-            <button type="submit" class="btn-center btn-primary">Buscar</button>
-            <button type="button" class="btn btn-outline btn-link" style="margin-left: 35%"
-                    onclick="loadDoc('busquedaSimple',myFunction, 'busquedaAv')">
-                Búsqueda Simple
-            </button>
-        </div>
-
+        </form>
         <!-- For para todos los demas elementos -->
         {% for art in articulos %}
         {% if art.id >= 4 %}
 
         <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
             <div class="card">
-                <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
-                                            alt=""></a>
+                <a href="{{ art.id }}"><img class="card-img-top" src={{art.ruta}}
+                                             alt="" width="160"></a>
                 <div class="card-body">
                     <h4 class="card-footer">
                         {% if art.estado == 1 %}
