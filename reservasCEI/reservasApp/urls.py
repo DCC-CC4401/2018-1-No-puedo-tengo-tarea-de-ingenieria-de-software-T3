@@ -6,8 +6,8 @@ app_name = 'reservasApp'
 
 urlpatterns = [
     re_path(r'^$', views.listaArticulos, name='index'),
-    re_path(r'^espacios/$', views.espacios, name='espacios'),
     path('articulos', views.listaArticulos, name='listaArt'),
+    path('spaces', views.listaEspacios, name='listaEsp'),
 
     path('busquedaAvanzada', views.busquedaAvanzada, name='busquedaAvanzada'),
     path('busquedaSimple', views.busquedaSimple, name='busquedaSimple'), #cambiar url por id

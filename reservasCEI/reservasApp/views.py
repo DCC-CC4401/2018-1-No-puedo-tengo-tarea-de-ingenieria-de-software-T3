@@ -10,8 +10,8 @@ from .models import *
 def index(request):
     return HttpResponse("Indice de la pagina. Esto es lo primero que los usuarios ven.")
 
-
-def espacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
+    
+def listaEspacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
     horario_espacio = []
     lunes = dia_actual - timedelta(days=dia_actual.weekday())
     lunes_str = lunes.strftime("%d/%m")
