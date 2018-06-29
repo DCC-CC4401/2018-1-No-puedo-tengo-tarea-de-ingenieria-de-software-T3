@@ -2,25 +2,44 @@
 {% load static %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/fichaArticuloStyle.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
-
-    <div>
-    <h1>Mesa</h1> <h2>Dispoible</h2>
-    Aqui va la foto
+    <div class="general">
+    <div class="info-articulo">
+    <h1 style="display:inline-block;">{{ nombre }}</h1> <h4 style="display:inline-block">{{ estado }}</h4><br />
+        <br />
+        <br />
+        <br />
+        <br />
+        Aqui va la foto <br />
+        <br />
+        <br />
+        <br />
+        <br />
+    <p>{{ descripcion }}</p>
     </div>
 
-    <div>
-    <div>
-        <h2>Solicitar reserva</h2>
-        <form>
-            Fecha:
-            <input type="date" id="fecha">
-            Hora:
-            <input type="time" id="hora">
+    <div class = reserva-articulo>
+        <h3>Solicitar reserva</h3>
+    <div class = con-borde>
+        <form action= "{% url 'reservasApp:exito' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="id_articulo" name="id_articulo" value={{ idarticulo }}>
+            Fecha inicial:
+            <input type="date" id="fecha_i"><br />
+            Fecha final:
+            <input type="date" id="fecha_f"><br />
+            Hora incial:
+            <input type="time" id="hora_i"><br />
+            Hora final:
+            <input type="time" id="hora_f"><br />
+            <input type="submit" value="Reservar">
         </form>
     </div>
-    <div>
-        <h2>Historial reservas</h2>
+        <h3>Historial reservas</h3>
+    <div class="con-borde">
+        reservas lista
+    </div>
     </div>
     </div>
 

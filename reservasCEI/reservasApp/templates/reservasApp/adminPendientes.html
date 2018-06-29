@@ -3,8 +3,6 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
-
 <div id="main-wrap">
 	<div id="sidebar">
 		<img class="sidebar-icon" src="{% static 'reservasApp/icons/user.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
@@ -12,121 +10,38 @@
 		<img class="sidebar-icon" src="{% static 'reservasApp/icons/list.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
 	</div>
 	<div id="content-wrap">
-		<div id="main-wrap-content">
-			<table class="center-table">
-				<h1>Administrador</h1>
-				<hr>
-
-				<tr>
-					<th> Lunes </th>
-					<th> Martes </th>
-					<th> Miercoles </th>
-					<th> Jueves </th>
-					<th> Viernes </th>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-  			</table>
-		</div>
-		<div id="bottom-left-panel">
-		<h3>Pendientes</h3>
 		<hr>
-		<table class="center-table">
-				<tr>
-					<th> ID </th>
-					<th> Articulo </th>
-					<th> Usuario </th>
-					<th> Fecha de Prestamo </th>
-					<th> Fecha de Solicitud </th>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-  			</table>
-		 </div>
+		<h1>Resumen de reservas de espacios</h1>
+		<div id="main-wrap-content">
+			<h3>Semana del XX al XX de XX</h3>
+			{% include 'reservasApp/_calendario.html' %}
+			<form class="" action="{% url 'reservasApp:cambiarespacio' %}" method="post">
+				{% csrf_token %}
+				{% for esp in espacios_total %}
+					{% if esp.id == espacio.id %} <!-- Falta agregar que sea de la semana -->
+						<input type="radio" id="espacio{{ forloop.counter }}"
+									 checked="checked" name="espacio_selec"
+									 value="{{ esp.id }}"/>
+					{% else %}
+					<input type="radio" id="espacio{{ forloop.counter }}"
+								 name="espacio_selec" value="{{ esp.id }}"/>
+					{% endif %}
+					<label for="espacio{{ forloop.counter }}">{{ esp.nombre }}</label>
+				{% endfor %}
+				<input type="submit" value="Cambiar espacio">
+			</form>
+		</div>
+
+		<div id="bottom-left-panel">
+			<h3>Pendientes</h3>
+				<hr>
+				{% include 'reservasApp/_calendario.html' %}
+		</div>
+
 		<div id="bottom-right-panel">
 			<h3>Pedidos</h3>
-		<hr>
-		<table class="center-table">
-				<tr>
-					<th> ID </th>
-					<th> Articulo </th>
-					<th> Usuario </th>
-					<th> Fecha de Prestamo </th>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr><tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr><tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr><tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-  			</table>
+				<hr>
+				{% include 'reservasApp/_calendario.html' %}
 		</div>
 	</div>
 </div>

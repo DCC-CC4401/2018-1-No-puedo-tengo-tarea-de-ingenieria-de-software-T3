@@ -1,0 +1,8 @@
+<div class="col-lg-4">
+  <br/>
+  <h2>{{ esp.nombre }}</h2>
+  <h4>{{ esp.estado }}</h4>
+  <h4>{{ esp.descripcion|truncatechars:20}}</h4>
+  <button href"{% url 'reservasApp:ficha' pk=esp.id %}"
+          type="btn btn-primary" name="button">Ver ficha</button>
+</div>
