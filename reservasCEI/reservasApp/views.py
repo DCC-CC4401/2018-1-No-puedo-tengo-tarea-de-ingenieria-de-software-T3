@@ -224,7 +224,7 @@ def perfil(request):
         else:
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)[:10]
             context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
-            return render(request, 'reservasApp/perfiluser.html', context)
+            return render(request, 'reservasApp/perfil.html', context)
 
 def eliminar_pendientesesp(request):
     for i in request.POST.getlist("reserva"):
@@ -234,7 +234,7 @@ def eliminar_pendientesesp(request):
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
-    return render(request, 'reservasApp/perfiluser.html', context)
+    return render(request, 'reservasApp/perfil.html', context)
 
 def eliminar_pendientesart(request):
     for i in request.POST.getlist("reserva"):
@@ -244,7 +244,7 @@ def eliminar_pendientesart(request):
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
-    return render(request, 'reservasApp/perfiluser.html', context)
+    return render(request, 'reservasApp/perfil.html', context)
 
 def aprobarart(request):
     for i in request.POST.getlist("reserva"):
