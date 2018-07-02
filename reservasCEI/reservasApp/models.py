@@ -1,7 +1,7 @@
 from django.db import models
-from datetime import *
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.contrib.auth.models import User
+from datetime import datetime
 
 ESTADO = (
     (0, 'Perdido'),
@@ -20,7 +20,7 @@ RESERVA_ESTADO = (
 class Articulo(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
-    estado = models.IntegerField(choices=ESTADO, default=1)
+    estado = models.IntegerField(choices=ESTADO, default=1) #0 en reparacion, 1 disponible, 2 en prestamo, 3 perdido
 
     def __str__(self):
         return self.nombre
@@ -39,7 +39,7 @@ class Espacio(models.Model):
 class ReservaArticulo(models.Model):
     # id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
-    fecha_reserva = models.DateTimeField(default=datetime.now())
+    fecha_reserva = models.DateTimeField(default=datetime.now)
     fecha_inicial = models.DateField()
     hora_inicial = models.IntegerField(validators=[MaxValueValidator(17), MinValueValidator(9)])
     fecha_final = models.DateField()
@@ -56,7 +56,7 @@ class ReservaArticulo(models.Model):
 class ReservaEspacio(models.Model):
     # id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     espacio = models.ForeignKey(Espacio, on_delete=models.CASCADE)
-    fecha_reserva = models.DateTimeField(default=datetime.now())
+    fecha_reserva = models.DateTimeField(default=datetime.now)
     fecha_inicial = models.DateField()
     hora_inicial = models.IntegerField(validators=[MaxValueValidator(17), MinValueValidator(9)])
     fecha_final = models.DateField()
