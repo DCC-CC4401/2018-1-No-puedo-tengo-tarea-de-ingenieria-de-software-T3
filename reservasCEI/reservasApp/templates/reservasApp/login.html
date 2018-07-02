@@ -1,23 +1,32 @@
-{% extends "reservasApp/baseGeneric.html" %}
-{% load static %}
+{% extends 'reservasApp/baseGeneric.html' %}
 
+{% block title %}Login{% endblock %}
 
 {% block content %}
+  <h2>Login</h2>
+  <form method="post" novalidate>
+  {% csrf_token %}
 
-<div class="container">
-  <div class="row">
-      
-    <div class="col-sm-12">
-        <div class="form-group">
-            <h2>Iniciar sesion</h2>
-              <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-              </form>
-        </div>
-    </div>
-      
-  </div>    
-</div>
+  {{ form.non_field_errors }}
 
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field.errors }}
+    {{ hidden_field }}
+  {% endfor %}
+
+    {% for field in form.visible_fields %}
+        {% if forloop.counter == 1 %}
+        R.U.T.: </br><i>(RUT con puntos, guion y digito verificador.)</i>
+        {% else %}
+        Contraseña:
+        {% endif %}
+        </br>
+        {{ field.errors }}
+        {{ field }}
+        {{ field.help_text }}
+        </br>
+    {% endfor %}
+
+  <button type="submit">Submit</button>
+  </form>
 {% endblock %}

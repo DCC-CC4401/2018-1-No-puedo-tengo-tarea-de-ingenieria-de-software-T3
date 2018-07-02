@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import utc
 from itertools import chain
 from operator import attrgetter
+from datetime import *
 
 from .forms import NewPersonForm, LoginForm
 from .models import *
@@ -81,7 +82,7 @@ def listaArticulos(request, articulo_id=1):
     articulos = Articulo.objects.all()
 
     context = {
-        'articulos': articulos
+        'articulos': articulos,
     }
 
     return render(request, 'reservasApp/listaArticulos.html', context)
@@ -91,7 +92,7 @@ def listaArticulos(request, articulo_id=1):
 def busquedaSimple(request):
     if (request.method == 'POST'):
         articulo = request.POST['articulo']
-        inventario = Articulo.objects.filter(nombre=articulo)
+        inventario = Articulo.objects.filter(nombre__iexact=articulo)
 
         return render(request, 'reservasApp/listaArticulos.html',
                       {'articulos': inventario})  # redirecciona a localhost:8000
@@ -110,27 +111,27 @@ def busquedaAvanzada(request):
         # campos estado y tipo existen
         if (estado != "4" and tipo != "0"):
             if (articulo != ""):  # campo articulo existe
-                inventario = Articulo.objects.filter(nombre=articulo, estado=estado, tipo=tipo)
+                inventario = Articulo.objects.filter(nombre__iexact=articulo, estado=estado, tipo=tipo)
             else:  # campo articulo no existe
                 inventario = Articulo.objects.filter(estado=estado, tipo=tipo)
 
         # campo estado existe pero no tipo
         elif (estado != "4"):
             if (articulo != ""):
-                inventario = Articulo.objects.filter(nombre=articulo, estado=estado)
+                inventario = Articulo.objects.filter(nombre__iexact=articulo, estado=estado)
             else:
                 inventario = Articulo.objects.filter(estado=estado)
 
         # campo tipo existe pero no estado
         elif (tipo != "0"):
             if (articulo != ""):  # campo articulo existe
-                inventario = Articulo.objects.filter(nombre=articulo, tipo=tipo)
+                inventario = Articulo.objects.filter(nombre__iexact=articulo, tipo=tipo)
             else:  # campo articulo no existe
                 inventario = Articulo.objects.filter(tipo=tipo)
 
         # campo articulo pero no tipo ni estado
         elif (articulo != ""):
-            inventario = Articulo.objects.filter(nombre=articulo)
+            inventario = Articulo.objects.filter(nombre__iexact=articulo)
 
         # Ningun campo existe
         else:
@@ -165,7 +166,7 @@ def loginView(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(request, username=username, password=raw_password)
             login(request, user)
             return redirect('reservasApp:listaArt')
     else:
