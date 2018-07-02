@@ -165,7 +165,7 @@ def loginView(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(request, username=username, password=raw_password)
             login(request, user)
             return redirect('reservasApp:listaArt')
     else:

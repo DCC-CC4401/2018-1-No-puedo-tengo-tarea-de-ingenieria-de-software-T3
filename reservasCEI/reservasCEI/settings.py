@@ -26,7 +26,7 @@ SECRET_KEY = 'r03kd*l*#xv3*mebjg7+t$l4*zz3m4xbw7ly3honv26b@21-n3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['2yeg4r8t.apps.lair.io', 'localhost']
+ALLOWED_HOSTS = ['ec2-54-218-56-137.us-west-2.compute.amazonaws.com', 'localhost']
 
 
 # Application definition
@@ -120,3 +120,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = 'reservasApp:index'

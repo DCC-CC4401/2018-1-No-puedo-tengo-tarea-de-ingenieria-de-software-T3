@@ -1,6 +1,8 @@
 from django.urls import path, re_path
 from django.conf import settings
 from django.views.static import serve
+from django.conf.urls import url
+from django.contrib.auth import views as auth_views
 from . import views
 
 app_name = 'reservasApp'
@@ -17,7 +19,7 @@ urlpatterns = [
 
     path('crearUsuario', views.crearUsuario, name='crearUsuario'),
     path('logout', views.logoutView, name='logout'),
-    path('login', views.loginView, name='login'),
+    url(r'^login/$', auth_views.login, {'template_name': 'reservasApp/login.html'}, name='login'),
     path('fichaArticulo', views.fichaArticulo, name='fichaArticulo'),
     path('eliminar_pendientesart', views.eliminar_pendientesart, name='eliminar_pendientesart'),
     path('eliminar_pendientesesp', views.eliminar_pendientesesp, name='eliminar_pendientesesp'),
