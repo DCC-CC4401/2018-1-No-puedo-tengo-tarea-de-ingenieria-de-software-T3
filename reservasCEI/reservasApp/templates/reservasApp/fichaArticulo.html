@@ -26,6 +26,8 @@
         date.addEventListener('input',soloHabiles);
     </script>
     <div class="general">
+    <br/>
+    <br/>
     <div class="info-articulo">
         {% if estado == 1 %}
             <h1>{{ nombre }}  <span class="badge badge-success">Disponible</span></h1>
@@ -37,7 +39,7 @@
             <h1>{{ nombre }}  <span class="badge badge-danger">Perdido</span></h1>
         {% endif %}
         <br />
-        <img class="card-img-top" src="http://placehold.it/200x150" alt="">
+        <img src="http://localhost:8000/media/{{ foto.ruta }}" height="250px">
         <br />
         <br />
     <p>{{ descripcion }}</p>

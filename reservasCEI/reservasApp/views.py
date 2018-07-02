@@ -187,14 +187,16 @@ def fichaArticulo(request):
     nombre = art.nombre
     estado = art.estado
     descripcion = art.descripcion
+    foto = get_object_or_404(FotoArticulo, articulo=articulo_id)
     # reservas = ReservaArticulo.objects.filter(articulo=art)
     # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'reservas': reservas}
-    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id}
+    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
 
 def exito(request):
     if request.method == 'POST':
+        usr = request.user
         idarticulo = request.POST['id_articulo']
         fecha_i = request.POST['fecha_i']
         fecha_f = request.POST['fecha_f']
@@ -203,7 +205,7 @@ def exito(request):
         art = get_object_or_404(Articulo, id=idarticulo)
         art.estado = 2
         art.save()
-        nuevo = ReservaArticulo(articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
+        nuevo = ReservaArticulo(id_usuario=usr, articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
                             hora_final=hora_f, estado=2)
         nuevo.save()
     return render(request, 'reservasApp/exito.html')
