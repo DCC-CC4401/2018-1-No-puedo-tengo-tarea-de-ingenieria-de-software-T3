@@ -1,0 +1,49 @@
+{% extends "reservasApp/baseGeneric.html" %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/perfilStyle.css' %}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <div class = "arriba">
+    <div class= "izq">
+        <a href="espacios" class="btn btn-outline-dark btn-lg btn-block" role="button" aria-pressed="true">Reserva tu espacio</a>
+         <br />
+         <br />
+         <br />
+        <h3>Reservas</h3>
+
+          <ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <input type="checkbox" id="id" value="id" />Parlantes
+    <span class="badge badge-primary badge-pill">En proceso</span>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <input type="checkbox" id="id" value="id" />Quincho
+    <span class="badge badge-primary badge-pill">Aceptado</span>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <input type="checkbox" id="id" value="id" />Sala 1
+    <span class="badge badge-primary badge-pill">Rechazado</span>
+  </li>
+</ul>
+
+    </div>
+    <div class = "der">
+        <a href="articulos" class="btn btn-outline-dark btn-lg btn-block" role="button" aria-pressed="true">Pide tu artículo</a>
+        <br />
+         <br />
+         <br />
+        <br />
+        <button type="button" class="btn btn-default btn-lg">
+  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar Seleccionados
+</button>
+    </div>
+    </div>
+
+
+
+
+
+{% endblock %}

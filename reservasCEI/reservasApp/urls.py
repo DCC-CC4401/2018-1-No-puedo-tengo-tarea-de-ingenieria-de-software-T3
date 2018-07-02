@@ -15,6 +15,7 @@ urlpatterns = [
     path('busquedaAvanzada', views.busquedaAvanzada),
     path('busquedaSimple', views.busquedaSimple),
     path('exito', views.exito, name='exito'),
+    path('perfil', views.perfil, name='perfil'),
     path('', views.index, name='index'),
     #path('administrar/pendientes', views.adminPendientes, name='resPend'),
     path('listaArticulos', views.listaArticulos, name = 'listaArt'),

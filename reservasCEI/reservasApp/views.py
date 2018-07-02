@@ -61,6 +61,9 @@ def exito(request):
         nuevo.save()
     return render(request, 'reservasApp/exito.html')
 
+def perfil(request):
+    return render(request, 'reservasApp/perfil.html')
+
 '''definir'''
 
 
