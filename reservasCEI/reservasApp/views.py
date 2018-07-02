@@ -4,15 +4,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import utc
 from itertools import chain
 from operator import attrgetter
+from django.contrib.auth.decorators import login_required
 
 from .forms import NewPersonForm, LoginForm
 from .models import *
 
-
 def index(request):
     return HttpResponse("Indice de la pagina. Esto es lo primero que los usuarios ven.")
 
-
+@login_required
 def listaEspacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
     horario_espacio = []
     lunes = dia_actual - timedelta(days=dia_actual.weekday())
@@ -33,7 +33,7 @@ def listaEspacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tz
                    'horario': horario_espacio, 'semana': semana, }
         return render(request, 'reservasApp/adminPendientes.html', context)
 
-
+@login_required
 def generarHorario(espacio_id, dia, horario_espacio, h=9):
     if (not (Espacio.objects.count())):
         for h in (list(range(9, 18))):
@@ -72,11 +72,12 @@ def generarHorario(espacio_id, dia, horario_espacio, h=9):
         if (h < 17):
             generarHorario(espacio_id, dia, horario_espacio, h + 1)
 
+@login_required
 def fichaEspacio(request, espacio_id):
     espacio = get_object_or_404(Espacio, id=espacio_id)
     return render(request, 'reservasApp/fichaEspacio.html', {'espacio': espacio})
 
-
+@login_required
 def listaArticulos(request, articulo_id=1):
     articulos = Articulo.objects.all()
 
@@ -88,6 +89,7 @@ def listaArticulos(request, articulo_id=1):
 
 
 # Falta mejorar la busqueda para ignorar mayusculas
+@login_required
 def busquedaSimple(request):
     if (request.method == 'POST'):
         articulo = request.POST['articulo']
@@ -100,7 +102,7 @@ def busquedaSimple(request):
         articulos = Articulo.objects.all()
         return render(request, 'reservasApp/busquedaSimple.html', {'articulos': articulos})
 
-
+@login_required
 def busquedaAvanzada(request):
     if (request.method == 'POST'):
         articulo = request.POST['articulo']
@@ -172,14 +174,14 @@ def loginView(request):
         form = LoginForm()
     return render(request, 'reservasApp/login.html', {'form': form})
 
-
+@login_required
 def logoutView(request):
     logout(request)
     return redirect('reservasApp:listaArt')
 
 
 
-
+@login_required
 def fichaArticulo(request):
     # articulo_id = request.GET[id]
     # art = get_object_or_404(Articulo, id=articulo_id)
@@ -196,6 +198,7 @@ def fichaArticulo(request):
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
 
+@login_required
 def exito(request):
     if request.method == 'POST':
         idarticulo = request.POST['id_articulo']
@@ -212,6 +215,7 @@ def exito(request):
     return render(request, 'reservasApp/exito.html')
 
 
+@login_required
 def perfil(request):
     reservasesp = ReservaEspacio.objects.all()
     reservasart = ReservaArticulo.objects.all()
@@ -226,6 +230,7 @@ def perfil(request):
             context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
             return render(request, 'reservasApp/perfil.html', context)
 
+@login_required
 def eliminar_pendientesesp(request):
     for i in request.POST.getlist("reserva"):
         ReservaEspacio.objects.filter(id=i).delete()
@@ -236,6 +241,7 @@ def eliminar_pendientesesp(request):
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfil.html', context)
 
+@login_required
 def eliminar_pendientesart(request):
     for i in request.POST.getlist("reserva"):
         ReservaArticulo.objects.filter(id=i).delete()
@@ -246,6 +252,7 @@ def eliminar_pendientesart(request):
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfil.html', context)
 
+@login_required
 def aprobarart(request):
     for i in request.POST.getlist("reserva"):
         r = ReservaArticulo.objects.get(id=i)
@@ -258,6 +265,7 @@ def aprobarart(request):
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
 
+@login_required
 def rechazarart(request):
     for i in request.POST.getlist("reserva"):
         r = ReservaArticulo.objects.get(id=i)
@@ -270,6 +278,7 @@ def rechazarart(request):
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
 
+@login_required
 def aprobaresp(request):
     for i in request.POST.getlist("reserva"):
         r = ReservaEspacio.objects.get(id=i)
@@ -282,6 +291,7 @@ def aprobaresp(request):
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
 
+@login_required
 def rechazaresp(request):
     for i in request.POST.getlist("reserva"):
         r = ReservaEspacio.objects.get(id=i)

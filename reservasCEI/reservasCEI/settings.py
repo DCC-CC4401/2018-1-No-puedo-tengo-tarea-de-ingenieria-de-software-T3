@@ -122,3 +122,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'reservasApp:index'
+LOGIN_URL = 'reservasApp:login'
