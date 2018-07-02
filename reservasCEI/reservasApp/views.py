@@ -5,6 +5,7 @@ from django.utils.timezone import utc
 from itertools import chain
 from operator import attrgetter
 from django.contrib.auth.decorators import login_required
+from datetime import *
 
 from .forms import NewPersonForm, LoginForm
 from .models import *
@@ -183,17 +184,13 @@ def logoutView(request):
 
 @login_required
 def fichaArticulo(request):
-    # articulo_id = request.GET[id]
-    # art = get_object_or_404(Articulo, id=articulo_id)
-    # nombre = art.nombre
-    # estado = art.estado
-    # descripcion = art.descripcion
+    articulo_id = request.GET['idart']
+    art = get_object_or_404(Articulo, id=articulo_id)
+    nombre = art.nombre
+    estado = art.estado
+    descripcion = art.descripcion
     # reservas = ReservaArticulo.objects.filter(articulo=art)
     # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'reservas': reservas}
-    articulo_id = 123
-    nombre = "Mesa"
-    estado = 1
-    descripcion = "Mesa mediana de 3x4 metros"
     context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id}
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
