@@ -15,7 +15,6 @@ urlpatterns = [
     path('busquedaAvanzada', views.busquedaAvanzada, name='busquedaAvanzada'),
     path('busquedaSimple', views.busquedaSimple, name='busquedaSimple'), #cambiar url por id
 
-    re_path(r'^reservas/$', views.reservas, name='reservas'),
     path('crearUsuario', views.crearUsuario, name='crearUsuario'),
     path('logout', views.logoutView, name='logout'),
     path('login', views.loginView, name='login'),
