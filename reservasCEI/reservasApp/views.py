@@ -34,7 +34,6 @@ def listaEspacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tz
                    'horario': horario_espacio, 'semana': semana, }
         return render(request, 'reservasApp/adminPendientes.html', context)
 
-@login_required
 def generarHorario(espacio_id, dia, horario_espacio, h=9):
     if (not (Espacio.objects.count())):
         for h in (list(range(9, 18))):
