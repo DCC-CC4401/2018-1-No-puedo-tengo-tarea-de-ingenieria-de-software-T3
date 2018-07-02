@@ -2,19 +2,27 @@
 {% load static %}
 
 {% block content %}
-<div id="main-wrap">
-	<div id="sidebar">
-		<img class="sidebar-icon" src="{% static 'reservasApp/icons/user.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
-		<img class="sidebar-icon" src="{% static 'reservasApp/icons/umbrella.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
-		<img class="sidebar-icon" src="{% static 'reservasApp/icons/list.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
+
+	<div class="container-btn">
+	    <div class="btn-group btn-group-justified" role="group" >
+	        <div class="btn-group" role="group">
+	            <form method="get" action="articulos">
+	                <button type="submit" formaction="articulos" class="btn btn-default btn-lg">Artículos</button>
+	            </form>
+	        </div>
+	        <div class="btn-group" role="group" aria-label="...">
+	            <form method="get" action="spaces">
+	                <button type="submit" formaction="spaces" class="btn btn-success btn-lg">Espacios</button>
+	            </form>
+	        </div>
+	    </div>
 	</div>
-	<div id="content-wrap">
-		<h1 align="center">Resumen de Reservas de espacios</h1>
-		<div id="main-wrap-content">
-			<hr>
+	<br>
+	<div>
+		<div>
 			<h3 align="center">{{ semana }}</h3>
 			<br>
-			<table id="horario_principal" class="table-condensed center-table">
+			<table id="horario_principal" class="table-bordered center-table">
 				<thead>
 				  <tr>
 				    <th> Horario </th>
@@ -37,7 +45,7 @@
 			</table>
 			<br>
 			<div align="center">
-				<form method="post" action="{% url 'reservasApp:espacios'%}" >
+				<form method="post" action="{% url 'reservasApp:listaEsp' %}" >
 					{% csrf_token %}
 					{% for esp in espacios_total %}
 						{% if esp.id == espacio.id %} <!-- Falta agregar que sea de la semana -->
@@ -50,14 +58,9 @@
 						{% endif %}
 						<label for="espacio{{ forloop.counter }}">{{ esp.nombre }}</label>
 					{% endfor %}
-					<input type="submit" value="Cambiar Espacio"/>
+					<input type="submit" value="Ver Espacio"/>
 				</form>
 			</div>
 		</div>
 	</div>
-</div>
-<div id="footer">
-	</script>
-	<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-</div>
 {% endblock %}

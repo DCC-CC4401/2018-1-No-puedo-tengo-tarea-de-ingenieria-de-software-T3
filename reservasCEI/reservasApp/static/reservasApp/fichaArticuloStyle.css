@@ -1,0 +1,29 @@
+.general {
+  overflow:hidden;
+}
+.info-articulo {
+    margin-left: 20px;
+  float:left;
+  width:45%;
+}
+.reserva-articulo {
+    margin-right: 20px;
+    margin-top: 10px;
+  float:right;
+  width:45%;
+}
+
+.con-borde {
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+    margin: 5px;
+}
+
+p {
+    border-style: dashed;
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 5px;
+}
+

@@ -8,3 +8,4 @@ admin.site.register(ReservaArticulo)
 admin.site.register(ReservaEspacio)
 admin.site.register(FotoArticulo)
 admin.site.register(FotoEspacio)
+
