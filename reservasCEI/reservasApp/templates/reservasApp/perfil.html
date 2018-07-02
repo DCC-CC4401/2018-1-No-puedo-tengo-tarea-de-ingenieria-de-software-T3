@@ -12,32 +12,34 @@
          <br />
          <br />
          <br />
-        <h3>Reservas</h3>
 
-          <ul class="list-group">
-              <!-- {% for res in reservas %}
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                       {% if res.estado == 2 %}
-                      <input type="checkbox" id="id" value="id" />{{ res.articulo.nombre }}
-                      {% endif %}
-                      <span class="badge badge-primary badge-pill">{{ res.estado }}</span>
-                </li>
-              {% endfor %} -->
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    Parlantes
-    <input type="checkbox" id="id" value="id" /><span class="badge badge-primary badge-pill">En proceso</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">Quincho
-    <span class="badge badge-primary badge-pill">Aceptado</span>
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">Sala 1
-    <span class="badge badge-primary badge-pill">Rechazado</span>
-  </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-    Martillo
-    <input type="checkbox" id="id" value="id" /><span class="badge badge-primary badge-pill">En proceso</span>
-  </li>
-</ul>
+        <h2 align="center" class="sub-header"> Mis últimas reservas</h2>
+  <br>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-2">Articulo/Espacio</th>
+          <th class="col-md-2">Horario</th>
+          <th class="col-md-2">Fecha de reserva</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reservas_recientes %}
+        <tr>
+          <td class="col-md-2">{{ r }}<span class="badge badge-primary badge-pill">{{ r.get_estado }}</span></td>
+          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+                {% if fecha_inicial == fecha_final %}
+                    {{ r.hora_final }}:00 </td>
+                {% else %}
+                    {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+                {% endif %}
+          <td class="col-md-2">{{ r.fecha_reserva }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
     </div>
     <div class = "der">
@@ -46,9 +48,80 @@
          <br />
          <br />
         <br />
-        <button type="button" class="btn btn-default btn-lg">
-  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar Seleccionados
-</button>
+          <h2 align="center" class="sub-header">Reservas de artículo pendientes</h2>
+  <br>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-2">Articulo</th>
+          <th class="col-md-2">Horario</th>
+          <th class="col-md-2">Fecha de reserva</th>
+          <th class="col-md-1">
+            <form method="post" action="eliminar_pendientesart">
+              {% csrf_token %}
+              <button type="submit" formaction="eliminar_pendientesart" class="btn btn-danger" formaction=""><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reservasart %}
+        {% if r.estado == 2 %}
+        <tr>
+          <td class="col-md-2">{{ r }}</td>
+          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+            {% if fecha_inicial == fecha_final %}
+                {{ r.hora_final }}:00 </td>
+            {% else %}
+                {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+            {% endif %}
+          <td class="col-md-2">{{ r.fecha_reserva }}</td>
+          <td class="col-md-1"><input name="reserva" value="{{ r.id }}" type="checkbox"></input></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        </form>
+      </tbody>
+    </table>
+  </div>
+        <br/>
+        <br/>
+        <h2 align="center" class="sub-header">Reservas de espacios pendientes</h2>
+    <br>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="col-md-2">Espacio</th>
+            <th class="col-md-2">Horario</th>
+            <th class="col-md-2">Fecha de reserva</th>
+            <th class="col-md-1">
+              <form method="post" action="eliminar_pendientesesp">
+                {% csrf_token %}
+                <button type="submit" formaction="eliminar_pendientesesp" class="btn btn-danger" formaction=""><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in reservasesp %}
+          {% if r.estado == 2 %}
+          <tr>
+            <td class="col-md-2">{{ r }}</td>
+            <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+              {% if fecha_inicial == fecha_final %}
+                  {{ r.hora_final }}:00 </td>
+              {% else %}
+                  {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+              {% endif %}
+            <td class="col-md-2">{{ r.fecha_reserva }}</td>
+            <td class="col-md-1"><input name="reserva" value="{{ r.id }}" type="checkbox"></input></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          </form>
+        </tbody>
+      </table>
+    </div>
     </div>
     </div>
 

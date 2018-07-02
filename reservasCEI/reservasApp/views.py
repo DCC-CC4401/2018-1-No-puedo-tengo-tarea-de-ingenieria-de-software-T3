@@ -81,7 +81,7 @@ def listaArticulos(request, articulo_id=1):
     articulos = Articulo.objects.all()
 
     context = {
-        'articulos': articulos
+        'articulos': articulos,
     }
 
     return render(request, 'reservasApp/listaArticulos.html', context)
@@ -91,7 +91,7 @@ def listaArticulos(request, articulo_id=1):
 def busquedaSimple(request):
     if (request.method == 'POST'):
         articulo = request.POST['articulo']
-        inventario = Articulo.objects.filter(nombre=articulo)
+        inventario = Articulo.objects.filter(nombre__iexact=articulo)
 
         return render(request, 'reservasApp/listaArticulos.html',
                       {'articulos': inventario})  # redirecciona a localhost:8000
@@ -110,27 +110,27 @@ def busquedaAvanzada(request):
         # campos estado y tipo existen
         if (estado != "4" and tipo != "0"):
             if (articulo != ""):  # campo articulo existe
-                inventario = Articulo.objects.filter(nombre=articulo, estado=estado, tipo=tipo)
+                inventario = Articulo.objects.filter(nombre__iexact=articulo, estado=estado, tipo=tipo)
             else:  # campo articulo no existe
                 inventario = Articulo.objects.filter(estado=estado, tipo=tipo)
 
         # campo estado existe pero no tipo
         elif (estado != "4"):
             if (articulo != ""):
-                inventario = Articulo.objects.filter(nombre=articulo, estado=estado)
+                inventario = Articulo.objects.filter(nombre__iexact=articulo, estado=estado)
             else:
                 inventario = Articulo.objects.filter(estado=estado)
 
         # campo tipo existe pero no estado
         elif (tipo != "0"):
             if (articulo != ""):  # campo articulo existe
-                inventario = Articulo.objects.filter(nombre=articulo, tipo=tipo)
+                inventario = Articulo.objects.filter(nombre__iexact=articulo, tipo=tipo)
             else:  # campo articulo no existe
                 inventario = Articulo.objects.filter(tipo=tipo)
 
         # campo articulo pero no tipo ni estado
         elif (articulo != ""):
-            inventario = Articulo.objects.filter(nombre=articulo)
+            inventario = Articulo.objects.filter(nombre__iexact=articulo)
 
         # Ningun campo existe
         else:
@@ -224,7 +224,7 @@ def perfil(request):
         else:
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)[:10]
             context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
-            return render(request, 'reservasApp/perfiluser.html', context)
+            return render(request, 'reservasApp/perfil.html', context)
 
 def eliminar_pendientesesp(request):
     for i in request.POST.getlist("reserva"):
@@ -234,7 +234,7 @@ def eliminar_pendientesesp(request):
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
-    return render(request, 'reservasApp/perfiluser.html', context)
+    return render(request, 'reservasApp/perfil.html', context)
 
 def eliminar_pendientesart(request):
     for i in request.POST.getlist("reserva"):
@@ -244,7 +244,7 @@ def eliminar_pendientesart(request):
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
-    return render(request, 'reservasApp/perfiluser.html', context)
+    return render(request, 'reservasApp/perfil.html', context)
 
 def aprobarart(request):
     for i in request.POST.getlist("reserva"):

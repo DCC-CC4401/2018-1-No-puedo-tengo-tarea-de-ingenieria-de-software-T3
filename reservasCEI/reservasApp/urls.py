@@ -4,6 +4,8 @@ from django.views.static import serve
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from . import views
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 app_name = 'reservasApp'
 
@@ -28,3 +30,6 @@ urlpatterns = [
     path('aprobaresp', views.aprobaresp, name='aprobaresp'),
     path('rechazaresp', views.rechazaresp, name='rechazarsep'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

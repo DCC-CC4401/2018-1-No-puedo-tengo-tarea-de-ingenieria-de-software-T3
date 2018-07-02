@@ -1,7 +1,7 @@
 from django.db import models
-from datetime import *
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.contrib.auth.models import User
+from datetime import datetime
 
 ESTADO = (
     (0, 'Perdido'),
@@ -39,7 +39,7 @@ class Espacio(models.Model):
 class ReservaArticulo(models.Model):
     # id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
-    fecha_reserva = models.DateTimeField(default=datetime.now())
+    fecha_reserva = models.DateTimeField(default=datetime.now)
     fecha_inicial = models.DateField()
     hora_inicial = models.IntegerField(validators=[MaxValueValidator(17), MinValueValidator(9)])
     fecha_final = models.DateField()
@@ -56,7 +56,7 @@ class ReservaArticulo(models.Model):
 class ReservaEspacio(models.Model):
     # id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     espacio = models.ForeignKey(Espacio, on_delete=models.CASCADE)
-    fecha_reserva = models.DateTimeField(default=datetime.now())
+    fecha_reserva = models.DateTimeField(default=datetime.now)
     fecha_inicial = models.DateField()
     hora_inicial = models.IntegerField(validators=[MaxValueValidator(17), MinValueValidator(9)])
     fecha_final = models.DateField()
