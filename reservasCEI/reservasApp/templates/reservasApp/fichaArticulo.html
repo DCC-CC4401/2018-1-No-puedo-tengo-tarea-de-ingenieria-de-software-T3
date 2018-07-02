@@ -2,25 +2,70 @@
 {% load static %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/fichaArticuloStyle.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
-
-    <div>
-    <h1>Mesa</h1> <h2>Dispoible</h2>
-    Aqui va la foto
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <div class="general">
+    <div class="info-articulo">
+        {% if estado == 1 %}
+            <h1>{{ nombre }}  <span class="badge badge-success">Disponible</span></h1>
+        {% elif estado == 2 %}
+            <h1>{{ nombre }}  <span class="badge badge-danger">En prestamo</span></h1>
+            {% elif estado == 0 %}
+            <h1>{{ nombre }}  <span class="badge badge-danger">En reparacion</span></h1>
+        {% endif %}
+        <br />
+        <img class="card-img-top" src="http://placehold.it/200x150" alt="">
+        <br />
+        <br />
+    <p>{{ descripcion }}</p>
     </div>
 
-    <div>
-    <div>
-        <h2>Solicitar reserva</h2>
-        <form>
-            Fecha:
-            <input type="date" id="fecha">
-            Hora:
-            <input type="time" id="hora">
+    <div class = reserva-articulo>
+        <h3>Solicitar reserva</h3>
+    <div class = con-borde>
+        <form action= "{% url 'reservasApp:exito' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="id_articulo" name="id_articulo" value={{ idarticulo }}>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="fecha_i">Fecha inicial:</label>
+                    <input type="date" id="fecha_i" name="fecha_i"><br />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="fecha_f">Fecha final:</label>
+                    <input type="date" id="fecha_f" name="fecha_f"><br />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                <label for="hora_i">Hora inicial:</label>
+                <input type="time" id="hora_i" name="hora_i"><br />
+                </div>
+                <div class="form-group col-md-6">
+                <label for="hora_f">Hora final:</label>
+                <input type="time" id="hora_f" name="hora_f"><br />
+                </div>
+            </div>
+            {% if estado == 1 %}
+            <button type="submit" class="btn btn-primary">Reservar</button>
+                {% else %}
+                <button type="submit" class="btn btn-primary" disabled>Reservar</button>
+            {% endif %}
         </form>
     </div>
-    <div>
-        <h2>Historial reservas</h2>
+        <br/>
+        <h3>Historial reservas</h3>
+    <div class="con-borde">
+        <ul>
+            <!-- {% for res in reservas %}
+                <li>Desde {{ res.fecha_inicial }} a las {{ res.hora_inicial }} hasta {{ res.fegit cha_final }} a las {{ res.hora_final }}</li>
+            {% endfor %} -->
+            <li>11/03/2018 16:00 a 18:00 hrs</li>
+            <li>16/04/2018 10:15 a 13:30 hrs</li>
+            <li>17/04/2018 11:00 a 11:30 hrs</li>
+        </ul>
+    </div>
     </div>
     </div>
 

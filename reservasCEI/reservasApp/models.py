@@ -85,3 +85,4 @@ class Person(User):
 
     class Meta:
         proxy = True
+

@@ -33,6 +33,7 @@ body {
 
 }
 
+
 .searchBar {
     width: 60%;
     float: left;
@@ -116,6 +117,12 @@ body {
 .portfolio-item {
 }
 
+
+.container-fluid {
+    width: 400px;
+    margin-left: 78%;
+}
+
 .card-body {
 }
 
@@ -129,6 +136,7 @@ body {
 .btn-success {
     background-color: green;
 }
+
 
 .btn-link {
     margin-left: 78%
@@ -182,4 +190,5 @@ body {
     margin-top: 10px;
     width: 200px;
     height: 180px;
+
 }
