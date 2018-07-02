@@ -1,136 +1,66 @@
-<!DOCTYPE html>
 {% extends "reservasApp/baseGeneric.html" %}
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
 
-<div id="main-wrap">
-	<div id="sidebar">
-		<img class="sidebar-icon" src="{% static 'reservasApp/icons/user.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
-		<img class="sidebar-icon" src="{% static 'reservasApp/icons/umbrella.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
-		<img class="sidebar-icon" src="{% static 'reservasApp/icons/list.png' %}" alt="Administrador de Perfiles" width="64" height="64"><br>
+	<div class="container-btn">
+	    <div class="btn-group btn-group-justified" role="group" >
+	        <div class="btn-group" role="group">
+	            <form method="get" action="articulos">
+	                <button type="submit" formaction="articulos" class="btn btn-default btn-lg">Artículos</button>
+	            </form>
+	        </div>
+	        <div class="btn-group" role="group" aria-label="...">
+	            <form method="get" action="spaces">
+	                <button type="submit" formaction="spaces" class="btn btn-success btn-lg">Espacios</button>
+	            </form>
+	        </div>
+	    </div>
 	</div>
-	<div id="content-wrap">
-		<div id="main-wrap-content">
-			<table class="center-table">
-				<h1>Administrador</h1>
-				<hr>
-
-				<tr>
-					<th> Lunes </th>
-					<th> Martes </th>
-					<th> Miercoles </th>
-					<th> Jueves </th>
-					<th> Viernes </th>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-  			</table>
-		</div>
-		<div id="bottom-left-panel">
-		<h3>Pendientes</h3>
-		<hr>
-		<table class="center-table">
-				<tr>
-					<th> ID </th>
-					<th> Articulo </th>
-					<th> Usuario </th>
-					<th> Fecha de Prestamo </th>
-					<th> Fecha de Solicitud </th>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-  			</table>
-		 </div>
-		<div id="bottom-right-panel">
-			<h3>Pedidos</h3>
-		<hr>
-		<table class="center-table">
-				<tr>
-					<th> ID </th>
-					<th> Articulo </th>
-					<th> Usuario </th>
-					<th> Fecha de Prestamo </th>
-				</tr>
-				<tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr><tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr><tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr><tr>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-					<td> X </td>
-				</tr>
-  			</table>
+	<br>
+	<div>
+		<div>
+			<h3 align="center">{{ semana }}</h3>
+			<br>
+			<table id="horario_principal" class="table-condensed center-table">
+				<thead>
+				  <tr>
+				    <th> Horario </th>
+				    <th> Lunes </th>
+				    <th> Martes </th>
+				    <th> Miercoles </th>
+				    <th> Jueves </th>
+				    <th> Viernes </th>
+				  </tr>
+				</thead>
+				<tbody>
+				{% for h in horario %}
+					<tr>
+						{% for h_sub in h %}
+							<td> {{h_sub}}</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+			</table>
+			<br>
+			<div align="center">
+				<form method="post" action="{% url 'reservasApp:listaEsp' %}" >
+					{% csrf_token %}
+					{% for esp in espacios_total %}
+						{% if esp.id == espacio.id %} <!-- Falta agregar que sea de la semana -->
+							<input type="radio" id="espacio{{ forloop.counter }}"
+										 checked="checked" name="espacio_selec"
+										 value="{{ esp.id }}"/>
+						{% else %}
+						<input type="radio" id="espacio{{ forloop.counter }}"
+									 name="espacio_selec" value="{{ esp.id }}"/>
+						{% endif %}
+						<label for="espacio{{ forloop.counter }}">{{ esp.nombre }}</label>
+					{% endfor %}
+					<input type="submit" value="Cambiar Espacio"/>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
-<div id="footer">
-	<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-</div>
 {% endblock %}

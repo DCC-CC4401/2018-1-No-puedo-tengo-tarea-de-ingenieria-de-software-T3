@@ -1,0 +1,23 @@
+{% extends "reservasApp/baseGeneric.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+      
+    <div class="col-sm-12">
+        <div class="form-group">
+            <h2>Iniciar sesion</h2>
+              <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+              </form>
+        </div>
+    </div>
+      
+  </div>    
+</div>
+
+{% endblock %}
