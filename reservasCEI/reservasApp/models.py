@@ -23,7 +23,7 @@ class Articulo(models.Model):
     estado = models.IntegerField(choices=ESTADO, default=1)
 
     def __str__(self):
-        return self.nombre + ' - ' + self.descripcion
+        return self.nombre
 
 
 class Espacio(models.Model):
@@ -39,16 +39,7 @@ class Espacio(models.Model):
 class ReservaArticulo(models.Model):
     # id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
-    fecha_inicial = models.DateField()
-    hora_inicial = models.IntegerField(validators=[MaxValueValidator(17), MinValueValidator(9)])
-    fecha_final = models.DateField()
-    hora_final = models.IntegerField(validators=[MaxValueValidator(18), MinValueValidator(10)])
-    estado = models.IntegerField(choices=RESERVA_ESTADO, default=2)
-
-
-class ReservaEspacio(models.Model):
-    # id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    espacio = models.ForeignKey(Espacio, on_delete=models.CASCADE)
+    fecha_reserva = models.DateTimeField(default=datetime.now())
     fecha_inicial = models.DateField()
     hora_inicial = models.IntegerField(validators=[MaxValueValidator(17), MinValueValidator(9)])
     fecha_final = models.DateField()
@@ -56,7 +47,27 @@ class ReservaEspacio(models.Model):
     estado = models.IntegerField(choices=RESERVA_ESTADO, default=2)
 
     def __str__(self):
-        return str(self.espacio) + ' - ' + str(self.estado)
+        return str(self.articulo)
+
+    def get_estado(self):
+        return RESERVA_ESTADO[self.estado][1]
+
+
+class ReservaEspacio(models.Model):
+    # id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    espacio = models.ForeignKey(Espacio, on_delete=models.CASCADE)
+    fecha_reserva = models.DateTimeField(default=datetime.now())
+    fecha_inicial = models.DateField()
+    hora_inicial = models.IntegerField(validators=[MaxValueValidator(17), MinValueValidator(9)])
+    fecha_final = models.DateField()
+    hora_final = models.IntegerField(validators=[MaxValueValidator(18), MinValueValidator(10)])
+    estado = models.IntegerField(choices=RESERVA_ESTADO, default=2)
+
+    def __str__(self):
+        return str(self.espacio)
+
+    def get_estado(self):
+        return RESERVA_ESTADO[self.estado][1]
 
 
 class FotoArticulo(models.Model):
@@ -85,4 +96,3 @@ class Person(User):
 
     class Meta:
         proxy = True
-
