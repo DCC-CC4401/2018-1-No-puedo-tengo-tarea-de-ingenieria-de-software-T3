@@ -1,10 +1,7 @@
 from django.urls import path, re_path
 from django.conf import settings
-<<<<<<< HEAD
-=======
-from django.views.static import serve
 
->>>>>>> ilana
+from django.views.static import serve
 from . import views
 
 app_name = 'reservasApp'
@@ -19,7 +16,6 @@ urlpatterns = [
     path('busquedaAvanzada', views.busquedaAvanzada, name='busquedaAvanzada'),
     path('busquedaSimple', views.busquedaSimple, name='busquedaSimple'), #cambiar url por id
 
-    re_path(r'^reservas/$', views.reservas, name='reservas'),
     path('crearUsuario', views.crearUsuario, name='crearUsuario'),
     path('logout', views.logoutView, name='logout'),
     path('login', views.loginView, name='login'),

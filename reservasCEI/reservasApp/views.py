@@ -188,13 +188,15 @@ def fichaArticulo(request):
     # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'reservas': reservas}
     articulo_id = 123
     nombre = "Mesa"
-    estado = 1
+    estado = 0
     descripcion = "Mesa mediana de 3x4 metros"
     context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id}
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
 
 def exito(request):
+    usuario = request.user
+    id_usuario = usuario.id
     if request.method == 'POST':
         idarticulo = request.POST['id_articulo']
         fecha_i = request.POST['fecha_i']
@@ -204,14 +206,15 @@ def exito(request):
         art = get_object_or_404(Articulo, id=idarticulo)
         art.estado = 2
         art.save()
-        nuevo = ReservaArticulo(articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
+        nuevo = ReservaArticulo(id_usuario=id_usuario ,articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
                             hora_final=hora_f, estado=2)
         nuevo.save()
     return render(request, 'reservasApp/exito.html')
 
 
 def perfil(request):
-    # rut = request.GET['rut']
+    # usuario = request.user
+    # rut = usuario.id
     # reservas = ReservaArticulo.objects.filter(id_usuario=rut)
     # return render(request, 'reservasApp/perfil.html', {'reservas': reservas})
     return render(request, 'reservasApp/perfil.html')
