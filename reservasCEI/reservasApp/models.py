@@ -20,7 +20,7 @@ RESERVA_ESTADO = (
 class Articulo(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
-    estado = models.IntegerField(choices=ESTADO, default=1)
+    estado = models.IntegerField(choices=ESTADO, default=1) #0 en reparacion, 1 disponible, 2 en prestamo, 3 perdido
 
     def __str__(self):
         return self.nombre
