@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load taggrupo %}
 <html>
 <head>
     <meta charset="utf-8">
@@ -52,7 +53,16 @@
                 <p class="text-right">
                     <b>{{request.user.first_name}} {{request.user.last_name}}</b><br>
                     {{request.user.username}}<br>
-                    {{request.user.email}}
+                    {{request.user.email}}<br>
+                    {% if request.user|has_group:"Administrador" %}
+                      Administrador
+                    {% else %}
+                      {% if request.user|has_group:"Autorizado" %}
+                      Autorizado
+                      {% else %}
+                      No autorizado
+                      {% endif %}
+                    {% endif %}
                 </p>
             </div>
             <div class="pull-right" style="padding-top: 45px; padding-right: 15px">
