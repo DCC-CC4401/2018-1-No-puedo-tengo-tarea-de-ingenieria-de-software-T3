@@ -8,7 +8,7 @@
 
         <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
             <div class="card">
-                <a href="{{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
+                <a href="fichaArticulo?id={{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
                                             alt=""></a>
                 <div class="card-body">
                     <h4 class="card-footer">
@@ -17,7 +17,7 @@
                         {% else %}
                         <span class="dot-nodisponible"></span>
                         {% endif %}
-                        <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                        <a href="fichaArticulo?idart={{ art.id }}" style="color: black"> {{ art.nombre }} </a>
                     </h4>
 
                 </div>
@@ -67,7 +67,7 @@
 
         <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
             <div class="card">
-                <a href="{{ art.id }}"><img class="card-img-top" src={{art.ruta}}
+                <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top" src={{art.ruta}}
                                              alt="" width="160"></a>
                 <div class="card-body">
                     <h4 class="card-footer">
@@ -76,7 +76,7 @@
                         {% else %}
                         <span class="dot-nodisponible"></span>
                         {% endif %}
-                        <a href="{{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                        <a href="fichaArticulo?id={{ art.id }}" style="color: black"> {{ art.nombre }} </a>
                     </h4>
 
                 </div>

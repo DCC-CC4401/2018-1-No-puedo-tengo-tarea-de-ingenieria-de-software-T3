@@ -4,16 +4,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import utc
 from itertools import chain
 from operator import attrgetter
+from django.contrib.auth.decorators import login_required
 from datetime import *
 
 from .forms import NewPersonForm, LoginForm
 from .models import *
 
-
 def index(request):
     return HttpResponse("Indice de la pagina. Esto es lo primero que los usuarios ven.")
 
-
+@login_required
 def listaEspacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
     horario_espacio = []
     lunes = dia_actual - timedelta(days=dia_actual.weekday())
@@ -166,7 +166,7 @@ def loginView(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password')
-            user = authenticate(request, username=username, password=raw_password)
+            user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('reservasApp:listaArt')
     else:
@@ -182,21 +182,23 @@ def logoutView(request):
 
 
 def fichaArticulo(request):
-    articulo_id = request.GET['idart']
-    art = get_object_or_404(Articulo, id=articulo_id)
-    nombre = art.nombre
-    estado = art.estado
-    descripcion = art.descripcion
-    foto = get_object_or_404(FotoArticulo, articulo=articulo_id)
+    # articulo_id = request.GET[id]
+    # art = get_object_or_404(Articulo, id=articulo_id)
+    # nombre = art.nombre
+    # estado = art.estado
+    # descripcion = art.descripcion
     # reservas = ReservaArticulo.objects.filter(articulo=art)
     # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'reservas': reservas}
-    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
+    articulo_id = 123
+    nombre = "Mesa"
+    estado = 1
+    descripcion = "Mesa mediana de 3x4 metros"
+    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id}
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
 
 def exito(request):
     if request.method == 'POST':
-        usr = request.user
         idarticulo = request.POST['id_articulo']
         fecha_i = request.POST['fecha_i']
         fecha_f = request.POST['fecha_f']
@@ -205,7 +207,7 @@ def exito(request):
         art = get_object_or_404(Articulo, id=idarticulo)
         art.estado = 2
         art.save()
-        nuevo = ReservaArticulo(id_usuario=usr, articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
+        nuevo = ReservaArticulo(articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
                             hora_final=hora_f, estado=2)
         nuevo.save()
     return render(request, 'reservasApp/exito.html')
