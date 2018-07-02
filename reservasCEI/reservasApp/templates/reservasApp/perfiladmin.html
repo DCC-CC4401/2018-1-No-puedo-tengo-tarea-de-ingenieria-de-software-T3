@@ -1,0 +1,144 @@
+{% extends "reservasApp/baseGeneric.html" %}
+{% block content %}
+<div class="container-btn">
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <form method="get" action="articulos">
+                <button type="submit" formaction="articulos" class="btn btn-default btn-lg">Artículos</button>
+            </form>
+        </div>
+        <div class="btn-group" role="group">
+            <form method="get" action="spaces">
+                <button type="submit" formaction="spaces" class="btn btn-default btn-lg">Espacios</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-xs-6">
+  <h2 align="center" class="sub-header">Historial de Reservas</h2>
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      Estado <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <li><a href="#">Vigente</a></li>
+      <li><a href="#">Caducado</a></li>
+      <li><a href="#">Perdido</a></li>
+    </ul>
+ </div>
+  <br>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-2">Usuario</th>
+          <th class="col-md-2">Articulo</th>
+          <th class="col-md-2">Horario</th>
+          <th class="col-md-2">Fecha de reserva</th>
+          <th class="col-md-2">Estado</th>
+          <th class="col-md-2"><form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success" formaction="aprobarart"><span class="glyphicon glyphicon-ok"/></button>
+                                <button type="submit" class="btn btn-danger" formaction="rechazarart"><span class="glyphicon glyphicon-remove"/></button></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reservasart %}
+        <tr>
+          <td class="col-md-2">user</td>
+          <td class="col-md-2">{{ r }}</td>
+          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+                {% if fecha_inicial == fecha_final %}
+                    {{ r.hora_final }}:00 </td>
+                {% else %}
+                    {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+                {% endif %}
+          <td class="col-md-2">{{ r.fecha_reserva }}</td>
+          <td class="col-md-2">{{ r.get_estado }}</td>
+          {% if r.estado == 2 %}
+            <td class="col-md-2"><input name="reserva" value="{{ r.id }}" type="checkbox"></input></td>
+          {% else %}
+            <td class="col-md-2"></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="col-xs-6">
+  <h2 align="center" class="sub-header">Préstamos aprobados</h2>
+  <br><br>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-2">Usuario</th>
+          <th class="col-md-2">Articulo/Espacio</th>
+          <th class="col-md-2">Horario</th>
+          <th class="col-md-2">Fecha de reserva</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reservas_recientes %}
+        {% if r.estado == 1 %}
+        <tr>
+          <td class="col-md-2">user</td>
+          <td class="col-md-2">{{ r }}</td>
+          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+            {% if fecha_inicial == fecha_final %}
+                {{ r.hora_final }}:00 </td>
+            {% else %}
+                {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+            {% endif %}
+          <td class="col-md-2">{{ r.fecha_reserva }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+<div class="col-xs-6">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-2">Usuario</th>
+          <th class="col-md-2">Espacio</th>
+          <th class="col-md-2">Horario</th>
+          <th class="col-md-2">Fecha de reserva</th>
+          <th class="col-md-2">Estado</th>
+          <th class="col-md-2"><form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success" formaction="aprobaresp"><span class="glyphicon glyphicon-ok"/></button>
+                                <button type="submit" class="btn btn-danger" formaction="rechazaresp"><span class="glyphicon glyphicon-remove"/></button></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reservasesp %}
+        <tr>
+          <td class="col-md-2">user</td>
+          <td class="col-md-2">{{ r }}</td>
+          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+                {% if fecha_inicial == fecha_final %}
+                    {{ r.hora_final }}:00 </td>
+                {% else %}
+                    {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+                {% endif %}
+          <td class="col-md-2">{{ r.fecha_reserva }}</td>
+          <td class="col-md-2">{{ r.get_estado }}</td>
+          {% if r.estado == 2 %}
+            <td class="col-md-2"><input name="reserva" value="{{ r.id }}" type="checkbox"></input></td>
+          {% else %}
+            <td class="col-md-2"></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

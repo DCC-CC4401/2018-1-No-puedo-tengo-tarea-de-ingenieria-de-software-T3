@@ -2,6 +2,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import utc
+from itertools import chain
+from operator import attrgetter
 
 from .forms import NewPersonForm, LoginForm
 from .models import *
@@ -10,7 +12,7 @@ from .models import *
 def index(request):
     return HttpResponse("Indice de la pagina. Esto es lo primero que los usuarios ven.")
 
-    
+
 def listaEspacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
     horario_espacio = []
     lunes = dia_actual - timedelta(days=dia_actual.weekday())
@@ -211,11 +213,86 @@ def exito(request):
 
 
 def perfil(request):
-    # rut = request.GET['rut']
-    # reservas = ReservaArticulo.objects.filter(id_usuario=rut)
-    # return render(request, 'reservasApp/perfil.html', {'reservas': reservas})
-    return render(request, 'reservasApp/perfil.html')
+    reservasesp = ReservaEspacio.objects.all()
+    reservasart = ReservaArticulo.objects.all()
+    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
+    if (request.user.is_authenticated):
+        if (request.user.groups.filter(name='Administrador').exists()):
+            reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
+            context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+            return render(request, 'reservasApp/perfiladmin.html', context)
+        else:
+            reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)[:10]
+            context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+            return render(request, 'reservasApp/perfiluser.html', context)
 
+def eliminar_pendientesesp(request):
+    for i in request.POST.getlist("reserva"):
+        ReservaEspacio.objects.filter(id=i).delete()
+    reservasesp = ReservaEspacio.objects.all()
+    reservasart = ReservaArticulo.objects.all()
+    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
+    reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    return render(request, 'reservasApp/perfiluser.html', context)
+
+def eliminar_pendientesart(request):
+    for i in request.POST.getlist("reserva"):
+        ReservaArticulo.objects.filter(id=i).delete()
+    reservasesp = ReservaEspacio.objects.all()
+    reservasart = ReservaArticulo.objects.all()
+    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
+    reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    return render(request, 'reservasApp/perfiluser.html', context)
+
+def aprobarart(request):
+    for i in request.POST.getlist("reserva"):
+        r = ReservaArticulo.objects.get(id=i)
+        r.estado = 1
+        r.save()
+    reservasesp = ReservaEspacio.objects.all()
+    reservasart = ReservaArticulo.objects.all()
+    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
+    reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    return render(request, 'reservasApp/perfiladmin.html', context)
+
+def rechazarart(request):
+    for i in request.POST.getlist("reserva"):
+        r = ReservaArticulo.objects.get(id=i)
+        r.estado = 0
+        r.save()
+    reservasesp = ReservaEspacio.objects.all()
+    reservasart = ReservaArticulo.objects.all()
+    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
+    reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    return render(request, 'reservasApp/perfiladmin.html', context)
+
+def aprobaresp(request):
+    for i in request.POST.getlist("reserva"):
+        r = ReservaEspacio.objects.get(id=i)
+        r.estado = 1
+        r.save()
+    reservasesp = ReservaEspacio.objects.all()
+    reservasart = ReservaArticulo.objects.all()
+    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
+    reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    return render(request, 'reservasApp/perfiladmin.html', context)
+
+def rechazaresp(request):
+    for i in request.POST.getlist("reserva"):
+        r = ReservaEspacio.objects.get(id=i)
+        r.estado = 0
+        r.save()
+    reservasesp = ReservaEspacio.objects.all()
+    reservasart = ReservaArticulo.objects.all()
+    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
+    reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    return render(request, 'reservasApp/perfiladmin.html', context)
 
 
 def buscar(request):
