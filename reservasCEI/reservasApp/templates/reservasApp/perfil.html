@@ -27,12 +27,12 @@
       <tbody>
         {% for r in reservas_recientes %}
         <tr>
-          <td class="col-md-2">{{ r }}<span class="badge badge-primary badge-pill">{{ r.get_estado }}</span></td>
-          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+          <td class="col-md-2">{{ r }} <span class="badge badge-primary badge-pill">{{ r.get_estado }}</span></td>
+          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }} -
                 {% if fecha_inicial == fecha_final %}
-                    {{ r.hora_final }}:00 </td>
+                    {{ r.hora_final }} </td>
                 {% else %}
-                    {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+                    {{ r.fecha_final }} {{ r.hora_final }} </td>
                 {% endif %}
           <td class="col-md-2">{{ r.fecha_reserva }}</td>
         </tr>
@@ -71,9 +71,9 @@
           <td class="col-md-2">{{ r }}</td>
           <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
             {% if fecha_inicial == fecha_final %}
-                {{ r.hora_final }}:00 </td>
+                {{ r.hora_final }} </td>
             {% else %}
-                {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+                {{ r.fecha_final }} {{ r.hora_final }} </td>
             {% endif %}
           <td class="col-md-2">{{ r.fecha_reserva }}</td>
           <td class="col-md-1"><input name="reserva" value="{{ r.id }}" type="checkbox"></input></td>
@@ -107,11 +107,11 @@
           {% if r.estado == 2 %}
           <tr>
             <td class="col-md-2">{{ r }}</td>
-            <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+            <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }} -
               {% if fecha_inicial == fecha_final %}
-                  {{ r.hora_final }}:00 </td>
+                  {{ r.hora_final }} </td>
               {% else %}
-                  {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+                  {{ r.fecha_final }} {{ r.hora_final }} </td>
               {% endif %}
             <td class="col-md-2">{{ r.fecha_reserva }}</td>
             <td class="col-md-1"><input name="reserva" value="{{ r.id }}" type="checkbox"></input></td>
