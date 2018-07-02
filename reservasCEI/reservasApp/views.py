@@ -72,6 +72,7 @@ def generarHorario(espacio_id, dia, horario_espacio, h=9):
         if (h < 17):
             generarHorario(espacio_id, dia, horario_espacio, h + 1)
 
+
 def fichaEspacio(request, espacio_id):
     espacio = get_object_or_404(Espacio, id=espacio_id)
     return render(request, 'reservasApp/fichaEspacio.html', {'espacio': espacio})
@@ -79,9 +80,11 @@ def fichaEspacio(request, espacio_id):
 
 def listaArticulos(request, articulo_id=1):
     articulos = Articulo.objects.all()
+    fotosArt = FotoArticulo.objects.all()
 
     context = {
         'articulos': articulos,
+        'fotosArt': fotosArt
     }
 
     return render(request, 'reservasApp/listaArticulos.html', context)
@@ -178,8 +181,6 @@ def logoutView(request):
     return redirect('reservasApp:listaArt')
 
 
-
-
 def fichaArticulo(request):
     # articulo_id = request.GET[id]
     # art = get_object_or_404(Articulo, id=articulo_id)
@@ -207,7 +208,7 @@ def exito(request):
         art.estado = 2
         art.save()
         nuevo = ReservaArticulo(articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
-                            hora_final=hora_f, estado=2)
+                                hora_final=hora_f, estado=2)
         nuevo.save()
     return render(request, 'reservasApp/exito.html')
 
@@ -219,12 +220,15 @@ def perfil(request):
     if (request.user.is_authenticated):
         if (request.user.groups.filter(name='Administrador').exists()):
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-            context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+            context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+                       'reservasesp': reservasesp}
             return render(request, 'reservasApp/perfiladmin.html', context)
         else:
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)[:10]
-            context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+            context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+                       'reservasesp': reservasesp}
             return render(request, 'reservasApp/perfil.html', context)
+
 
 def eliminar_pendientesesp(request):
     for i in request.POST.getlist("reserva"):
@@ -233,8 +237,10 @@ def eliminar_pendientesesp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfil.html', context)
+
 
 def eliminar_pendientesart(request):
     for i in request.POST.getlist("reserva"):
@@ -243,8 +249,10 @@ def eliminar_pendientesart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfil.html', context)
+
 
 def aprobarart(request):
     for i in request.POST.getlist("reserva"):
@@ -255,8 +263,10 @@ def aprobarart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
+
 
 def rechazarart(request):
     for i in request.POST.getlist("reserva"):
@@ -267,8 +277,10 @@ def rechazarart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
+
 
 def aprobaresp(request):
     for i in request.POST.getlist("reserva"):
@@ -279,8 +291,10 @@ def aprobaresp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
+
 
 def rechazaresp(request):
     for i in request.POST.getlist("reserva"):
@@ -291,9 +305,6 @@ def rechazaresp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
-
-
-def buscar(request):
-    return "hola"

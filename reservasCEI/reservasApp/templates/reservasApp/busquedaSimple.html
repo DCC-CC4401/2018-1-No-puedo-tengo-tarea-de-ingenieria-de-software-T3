@@ -29,24 +29,31 @@
 
         {% for art in articulos %}
 
-        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-            <div class="card">
+            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                <div class="card">
+                    {% for img in fotosArt %}
 
-                <a href="{{ art.id }}"><img class="card-img-top" src={{art.ruta}}
-                                             alt="" width="160"></a>
-                <div class="card-body">
-                    <h4 class="card-footer">
-                        {% if art.estado == 1 %}
-                        <span class="dot-disponible"></span>
-                        {% else %}
-                        <span class="dot-nodisponible"></span>
-                        {% endif %}
-                        <a href="{{ art.id }}" style="color: black"> {{ art.ruta }} </a>
-                    </h4>
 
-                </div>
-            </div>
-        </div>
+
+                            <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
+                                                                         src="http://localhost:8000/media/{{ img.ruta }}"
+                                                                         alt="" width="160"></a>
+                    
+
+                        <div class="card-body">
+                            <h4 class="card-footer">
+                                {% if art.estado == 1 %}
+                                    <span class="dot-disponible"></span>
+                                {% else %}
+                                    <span class="dot-nodisponible"></span>
+                                {% endif %}
+                                <a href="fichaArticulo?idart={{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                            </h4>
+
+                        </div>
+                        </div>
+                        </div>
+                    {% endfor %}
         {% endfor %}
 
 
