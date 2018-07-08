@@ -78,17 +78,18 @@ def fichaEspacio(request, espacio_id):
     return render(request, 'reservasApp/fichaEspacio.html', {'espacio': espacio})
 
 
-def listaArticulos(request, articulo_id=1):
+def listaArticulos(request):
     articulos = Articulo.objects.all()
+
+    fotosArt = FotoArticulo.objects.all()
 
     context = {
         'articulos': articulos,
+        'fotosArt': fotosArt
     }
 
     return render(request, 'reservasApp/listaArticulos.html', context)
 
-
-# Falta mejorar la busqueda para ignorar mayusculas
 def busquedaSimple(request):
     if (request.method == 'POST'):
         articulo = request.POST['articulo']
@@ -190,7 +191,7 @@ def fichaArticulo(request):
     foto = get_object_or_404(FotoArticulo, articulo=articulo_id)
     reservas = ReservaArticulo.objects.filter(articulo=art)
     context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto, 'reservas': reservas}
-    # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
+        # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
 

@@ -4,26 +4,34 @@
 
         {% for art in articulos %}
 
-        {% if art.id < 4 %}
+            {% if art.id < 4 %}
 
-        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-            <div class="card">
-                <a href="fichaArticulo?id={{ art.id }}"><img class="card-img-top" src="http://placehold.it/200x150"
-                                            alt=""></a>
-                <div class="card-body">
-                    <h4 class="card-footer">
-                        {% if art.estado == 1 %}
-                        <span class="dot-disponible"></span>
-                        {% else %}
-                        <span class="dot-nodisponible"></span>
-                        {% endif %}
-                        <a href="fichaArticulo?idart={{ art.id }}" style="color: black"> {{ art.nombre }} </a>
-                    </h4>
+                <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                    <div class="card">
+                        {% for foto in art.fotoarticulo_set.all %}
 
+                            <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
+                                                                            src="http://localhost:8000/media/{{ foto.ruta }}"
+                                                                            alt="" width="160"></a>
+                        {% empty %}
+                            <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
+                                                                            src='https://lightwidget.com/widgets/empty-photo.jpg'
+                                                                            alt="" width="160"></a>
+                        {% endfor %}
+                        <div class="card-body">
+                            <h4 class="card-footer">
+                                {% if art.estado == 1 %}
+                                    <span class="dot-disponible"></span>
+                                {% else %}
+                                    <span class="dot-nodisponible"></span>
+                                {% endif %}
+                                <a href="fichaArticulo?idart={{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                            </h4>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        {% endif %}
+            {% endif %}
         {% endfor %} <!-- /For primeros 3 elementos-->
 
         <!-- Container para busqueda avanzada -->
@@ -63,26 +71,34 @@
         </form>
         <!-- For para todos los demas elementos -->
         {% for art in articulos %}
-        {% if art.id >= 4 %}
+            {% if art.id >= 4 %}
 
-        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-            <div class="card">
-                <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top" src={{art.ruta}}
-                                             alt="" width="160"></a>
-                <div class="card-body">
-                    <h4 class="card-footer">
-                        {% if art.estado == 1 %}
-                        <span class="dot-disponible"></span>
-                        {% else %}
-                        <span class="dot-nodisponible"></span>
-                        {% endif %}
-                        <a href="fichaArticulo?id={{ art.id }}" style="color: black"> {{ art.nombre }} </a>
-                    </h4>
+                <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                    <div class="card">
+                        {% for foto in art.fotoarticulo_set.all %}
 
+                            <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
+                                                                            src="http://localhost:8000/media/{{ foto.ruta }}"
+                                                                            alt="" width="160"></a>
+                        {% empty %}
+                            <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
+                                                                            src=https://cdn.dribbble.com/users/55871/screenshots/2158022/no_photo_1x.jpg
+                                                                            alt="" width="160"></a>
+                        {% endfor %}
+                        <div class="card-body">
+                            <h4 class="card-footer">
+                                {% if art.estado == 1 %}
+                                    <span class="dot-disponible"></span>
+                                {% else %}
+                                    <span class="dot-nodisponible"></span>
+                                {% endif %}
+                                <a href="fichaArticulo?id={{ art.id }}" style="color: black"> {{ art.nombre }} </a>
+                            </h4>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        {% endif %}
+            {% endif %}
         {% endfor %} <!-- /For demas elementos-->
 
     </div>
