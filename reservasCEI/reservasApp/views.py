@@ -200,14 +200,38 @@ def fichaArticulo(request):
         # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
-def editnombre(request):
-    return render(request, 'reservasApp/editnombre.html')
+def editArticulo(request):
+    context = {}
+    if request.method == 'POST':
+        articulo_id = request.GET['idart']
+        art = get_object_or_404(Articulo, id=articulo_id)
+        nombre = art.nombre
+        descripcion = art.descripcion
+        context = {'nombre': nombre, 'idart': articulo_id, 'descripcion': descripcion}
+    return render(request, 'reservasApp/editArticulo.html', context)
 
-def editestado(request):
-    return render(request, 'reservasApp/editnombre.html')
+def nuevosDatos(request):
+    if request.method == 'POST':
+        articulo_id = request.POST['idart']
+        art = get_object_or_404(Articulo, id=articulo_id)
+        nombre = request.POST['nombre']
+        descripcion = request.POST['descripcion']
+        estado = request.POST['estado']
+        art.nombre= nombre
+        art.descripcion = descripcion
+        es=0
+        if(estado == "Disponible"):
+            es=1
+        elif(estado == "En prestamo"):
+            es=2
+        else:
+            es=3
+        art.estado = es
+        art.save()
+        return redirect('/fichaArticulo?idart=' + articulo_id)
+    else:
+        return HttpResponse("Error al actualizar datos")
 
-def editdesc(request):
-    return render(request, 'reservasApp/editdesc.html')
 
 
 def exito(request):
