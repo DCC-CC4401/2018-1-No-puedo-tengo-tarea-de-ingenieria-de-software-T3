@@ -1,0 +1,17 @@
+{% extends "reservasApp/baseGeneric.html" %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+
+<form>
+ <div class="form-group">
+<label for="nombre">Nuevo nombre</label>
+    <input class="form-control" type="text" id="nombre">
+ </div>
+<button type="submit" class="btn btn-primary mb-2">Guardar</button>
+</form>
+
+
+{% endblock %}
