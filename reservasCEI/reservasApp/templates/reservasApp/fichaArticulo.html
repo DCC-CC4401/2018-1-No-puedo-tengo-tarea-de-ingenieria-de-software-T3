@@ -31,18 +31,35 @@
     <div class="info-articulo">
         {% if estado == 1 %}
             <h1>{{ nombre }}  <span class="badge badge-success">Disponible</span></h1>
+            {% if a == 1 %}
+                <a href="editnombre" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar nombre</a>
+                <a href="editestado" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar estado</a>
+            {% endif %}
         {% elif estado == 2 %}
             <h1>{{ nombre }}  <span class="badge badge-danger">En prestamo</span></h1>
+            {% if a == 1 %}
+                <a href="editnombre" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar nombre</a>
+                <a href="editestado" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar estado</a>
+            {% endif %}
             {% elif estado == 0 %}
             <h1>{{ nombre }}  <span class="badge badge-danger">En reparacion</span></h1>
+            {% if a == 1 %}
+                <a href="editnombre" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar nombre</a>
+                <a href="editestado" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar estado</a>
+            {% endif %}
         {% elif estado == 3 %}
             <h1>{{ nombre }}  <span class="badge badge-danger">Perdido</span></h1>
+            {% if a == 1 %}
+                <a href="editnombre" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar nombre</a>
+                <a href="editestado" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar estado</a>
+            {% endif %}
         {% endif %}
         <br />
         <img src="http://localhost:8000/media/{{ foto.ruta }}" height="250px">
         <br />
         <br />
     <p>{{ descripcion }}</p>
+    <a href="editdesc" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar descripcion</a>
     </div>
 
     <div class = reserva-articulo>
@@ -87,9 +104,6 @@
             {% for res in reservas %}
                 <li>Desde {{ res.fecha_inicial }} a las {{ res.hora_inicial }} hasta {{ res.fecha_final }} a las {{ res.hora_final }}</li>
             {% endfor %}
-            <!--<li>11/03/2018 16:00 a 18:00 hrs</li>
-            <li>16/04/2018 10:15 a 13:30 hrs</li>
-            <li>17/04/2018 11:00 a 11:30 hrs</li>-->
         </ul>
     </div>
     </div>
