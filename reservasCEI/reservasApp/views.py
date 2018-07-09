@@ -298,8 +298,8 @@ def perfil(request):
             context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
             return render(request, 'reservasApp/perfiladmin.html', context)
         else:
-            reservasesp = ReservaEspacio.objects.filter(id_usuario=request.user.id)
-            reservasart = ReservaArticulo.objects.filter(id_usuario=request.user.id)
+            reservasesp = sorted(ReservaEspacio.objects.filter(id_usuario=request.user.id), key=attrgetter('fecha_reserva'), reverse=True)
+            reservasart = sorted(ReservaArticulo.objects.filter(id_usuario=request.user.id), key=attrgetter('fecha_reserva'), reverse=True)
             reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)[:10]
             context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
