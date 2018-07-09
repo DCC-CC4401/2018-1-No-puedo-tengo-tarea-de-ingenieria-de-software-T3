@@ -20,7 +20,7 @@
             <h1>{{ nombre }}  <span class="badge badge-danger">Perdido</span></h1>
         {% endif %}
         <br />
-        <img src="http://localhost:8000/media/{{ foto.ruta }}" height="250px">
+        <img src="{{ foto.ruta.url }}" height="250px">
         <br />
         <br />
     <p>{{ descripcion }}</p>
