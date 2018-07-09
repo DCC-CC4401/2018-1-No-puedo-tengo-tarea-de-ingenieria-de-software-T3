@@ -245,13 +245,18 @@ def exito(request):
         fecha_f = request.POST['fecha_f']
         hora_i = request.POST['hora_i']
         hora_f = request.POST['hora_f']
+        #weekday = request.POST['cosa']
+        #if weekday == 0:
+        #    return HttpResponse("No se puede reservar en fin de semana")
         art = get_object_or_404(Articulo, id=idarticulo)
-        # art.estado = 2
-        # art.save()
-        if fecha_i == today:
-            return render(request, 'reservasApp/fallo.html')
+
         nuevo = ReservaArticulo(id_usuario=usrid, articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
                             hora_final=hora_f, estado=2)
+        #if nuevo.fecha_inicial.weekday() == 5 | nuevo.fecha_inicial.weekday() == 6:
+        #    return HttpResponse("No se puede reservar en fin de semana")
+        #if nuevo.fecha_final.weekday() == 5 | nuevo.fecha_final.weekday() == 6:
+         #   return HttpResponse("No se puede reservar en fin de semana")
+
         nuevo.save()
     return render(request, 'reservasApp/exito.html')
 
