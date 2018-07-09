@@ -37,7 +37,8 @@ class Espacio(models.Model):
 
 
 class ReservaArticulo(models.Model):
-    id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_usuario = models.IntegerField(default=0)
+    #id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
     fecha_reserva = models.DateTimeField(default=datetime.now)
     fecha_inicial = models.DateField()
