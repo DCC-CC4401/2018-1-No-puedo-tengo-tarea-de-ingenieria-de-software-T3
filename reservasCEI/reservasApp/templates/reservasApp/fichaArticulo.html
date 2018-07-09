@@ -5,26 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/fichaArticuloStyle.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'reservasApp/adminStyle.css' %}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <script>
-        var date = document.querySelector('[type=date]');
 
-        function soloHabiles(e){
-
-            var day = new Date( e.target.value ).getUTCDay();
-
-            if( day == 0 || day == 6 ){
-
-                e.target.setCustomValidity('Solo se permiten reservas en dias habiles');
-
-            } else {
-
-                e.target.setCustomValidity('');
-            }
-
-        }
-
-        date.addEventListener('input',soloHabiles);
-    </script>
     <div class="general">
     <br/>
     <br/>
@@ -33,16 +14,19 @@
             <h1>{{ nombre }}  <span class="badge badge-success">Disponible</span></h1>
         {% elif estado == 2 %}
             <h1>{{ nombre }}  <span class="badge badge-danger">En prestamo</span></h1>
-            {% elif estado == 0 %}
+        {% elif estado == 0 %}
             <h1>{{ nombre }}  <span class="badge badge-danger">En reparacion</span></h1>
         {% elif estado == 3 %}
             <h1>{{ nombre }}  <span class="badge badge-danger">Perdido</span></h1>
         {% endif %}
         <br />
-        <img src="http://localhost:8000/media/{{ foto.ruta }}" height="250px">
+        <img src="{{ foto.ruta.url }}" height="250px">
         <br />
         <br />
     <p>{{ descripcion }}</p>
+    {% if admin == 1 %}
+    <a href="editArticulo?idart={{ idarticulo }}" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar informacion</a>
+    {% endif %}
     </div>
 
     <div class = reserva-articulo>
@@ -55,11 +39,13 @@
                 <div class="form-group col-md-6">
                     <label for="fecha_i">Fecha inicial:</label>
                     <input type="date" id="fecha_i" name="fecha_i"><br />
+                    <span class="hours">Reservas solo en dias habiles.</span>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="fecha_f">Fecha final:</label>
                     <input type="date" id="fecha_f" name="fecha_f"><br />
                 </div>
+
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -74,7 +60,7 @@
                 </div>
             </div>
             {% if estado == 1 %}
-            <button type="submit" class="btn btn-primary">Reservar</button>
+            <button type="submit" class="btn btn-primary">Reservar</button><span class="hours"> Reservas deben realizarse a mas tardar una hora antes del prestamo.</span>
                 {% else %}
                 <button type="submit" class="btn btn-primary" disabled>Reservar</button>
             {% endif %}
@@ -87,13 +73,43 @@
             {% for res in reservas %}
                 <li>Desde {{ res.fecha_inicial }} a las {{ res.hora_inicial }} hasta {{ res.fecha_final }} a las {{ res.hora_final }}</li>
             {% endfor %}
-            <!--<li>11/03/2018 16:00 a 18:00 hrs</li>
-            <li>16/04/2018 10:15 a 13:30 hrs</li>
-            <li>17/04/2018 11:00 a 11:30 hrs</li>-->
         </ul>
     </div>
     </div>
     </div>
+
+    <script>
+
+    function weekdaysOnly() {
+        var day = document.getElementById("fecha_i").value;
+        var date = new Date(day).getUTCDay();
+
+        var day1 = document.getElementById("fecha_f").value;
+        var date1 = new Date(day1).getUTCDay();
+
+        if((date == 0 || date == 6) | (date1 == 0 || date1 == 6)){
+            alert("Solo reservas en dias de semana");
+        }
+    }
+
+    weekdaysOnly()
+
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("fecha_i").setAttribute("min", today);
+
+    </script>
 
 
 {% endblock %}

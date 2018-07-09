@@ -6,14 +6,13 @@ from itertools import chain
 from operator import attrgetter
 from django.contrib.auth.decorators import login_required
 from datetime import *
-
 from .forms import NewPersonForm, LoginForm
 from .models import *
-
+from django.utils.timezone import utc
+from django.contrib.auth.models import Group
 
 def index(request):
     return HttpResponse("Indice de la pagina. Esto es lo primero que los usuarios ven.")
-
 
 @login_required
 def listaEspacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
@@ -75,7 +74,6 @@ def generarHorario(espacio_id, dia, horario_espacio, h=9):
         if (h < 17):
             generarHorario(espacio_id, dia, horario_espacio, h + 1)
 
-
 def fichaEspacio(request, espacio_id):
     espacio = get_object_or_404(Espacio, id=espacio_id)
     return render(request, 'reservasApp/fichaEspacio.html', {'espacio': espacio})
@@ -92,7 +90,6 @@ def listaArticulos(request):
     }
 
     return render(request, 'reservasApp/listaArticulos.html', context)
-
 
 def busquedaSimple(request):
     if (request.method == 'POST'):
@@ -215,7 +212,13 @@ def logoutView(request):
     return redirect('reservasApp:listaArt')
 
 
+
+
 def fichaArticulo(request):
+    if request.user.is_superuser:
+        a=1
+    else:
+        a=0
     articulo_id = request.GET['idart']
     art = get_object_or_404(Articulo, id=articulo_id)
     nombre = art.nombre
@@ -223,10 +226,43 @@ def fichaArticulo(request):
     descripcion = art.descripcion
     foto = get_object_or_404(FotoArticulo, articulo=articulo_id)
     reservas = ReservaArticulo.objects.filter(articulo=art)
-    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto,
-               'reservas': reservas}
-    # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
+    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto, 'reservas': reservas, 'admin': a}
+        # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
     return render(request, 'reservasApp/fichaArticulo.html', context)
+
+def editArticulo(request):
+    if request.method == 'GET':
+        articulo_id = request.GET['idart']
+        art = get_object_or_404(Articulo, id=articulo_id)
+        nombre = art.nombre
+        descripcion = art.descripcion
+        context = {'nombre': nombre, 'idart': articulo_id, 'descripcion': descripcion}
+        return render(request, 'reservasApp/editArticulo.html', context)
+    else:
+        return HttpResponse("Error al editar")
+
+def nuevosDatos(request):
+    if request.method == 'POST':
+        articulo_id = request.POST['idart']
+        art = get_object_or_404(Articulo, id=articulo_id)
+        nombre = request.POST['nombre']
+        descripcion = request.POST['descripcion']
+        estado = request.POST['estado']
+        art.nombre= nombre
+        art.descripcion = descripcion
+        es=0
+        if(estado == "Disponible"):
+            es=1
+        elif(estado == "En prestamo"):
+            es=2
+        elif(estado == "Perdido"):
+            es=3
+        art.estado = es
+        art.save()
+        return redirect('/fichaArticulo?idart=' + articulo_id)
+    else:
+        return HttpResponse("Error al actualizar datos")
+
 
 
 def exito(request):
@@ -239,31 +275,34 @@ def exito(request):
         hora_i = request.POST['hora_i']
         hora_f = request.POST['hora_f']
         art = get_object_or_404(Articulo, id=idarticulo)
-        # art.estado = 2
-        # art.save()
-        nuevo = ReservaArticulo(id_usuario=usrid, articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f,
-                                hora_inicial=hora_i,
-                                hora_final=hora_f, estado=2)
+
+        nuevo = ReservaArticulo(id_usuario=usrid, articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
+                            hora_final=hora_f, estado=2)
+        #if nuevo.fecha_inicial.weekday() == 5 | nuevo.fecha_inicial.weekday() == 6:
+        #    return HttpResponse("No se puede reservar en fin de semana")
+        #if nuevo.fecha_final.weekday() == 5 | nuevo.fecha_final.weekday() == 6:
+         #   return HttpResponse("No se puede reservar en fin de semana")
+
         nuevo.save()
     return render(request, 'reservasApp/exito.html')
 
 
 def perfil(request):
-    reservasesp = ReservaEspacio.objects.all()
-    reservasart = ReservaArticulo.objects.all()
-    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     if (request.user.is_authenticated):
         if (request.user.groups.filter(name='Administrador').exists()):
+            reservasesp = ReservaEspacio.objects.all()
+            reservasart = ReservaArticulo.objects.all()
+            reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-            context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
-                       'reservasesp': reservasesp}
+            context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
             return render(request, 'reservasApp/perfiladmin.html', context)
         else:
+            reservasesp = ReservaEspacio.objects.filter(id_usuario=request.user.id)
+            reservasart = ReservaArticulo.objects.filter(id_usuario=request.user.id)
+            reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)[:10]
-            context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
-                       'reservasesp': reservasesp}
+            context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
             return render(request, 'reservasApp/perfil.html', context)
-
 
 def eliminar_pendientesesp(request):
     for i in request.POST.getlist("reserva"):
@@ -272,10 +311,8 @@ def eliminar_pendientesesp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
-               'reservasesp': reservasesp}
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfil.html', context)
-
 
 def eliminar_pendientesart(request):
     for i in request.POST.getlist("reserva"):
@@ -284,10 +321,8 @@ def eliminar_pendientesart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
-               'reservasesp': reservasesp}
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfil.html', context)
-
 
 def aprobarart(request):
     for i in request.POST.getlist("reserva"):
@@ -298,10 +333,8 @@ def aprobarart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
-               'reservasesp': reservasesp}
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
-
 
 def rechazarart(request):
     for i in request.POST.getlist("reserva"):
@@ -312,10 +345,8 @@ def rechazarart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
-               'reservasesp': reservasesp}
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
-
 
 def aprobaresp(request):
     for i in request.POST.getlist("reserva"):
@@ -326,10 +357,8 @@ def aprobaresp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
-               'reservasesp': reservasesp}
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
-
 
 def rechazaresp(request):
     for i in request.POST.getlist("reserva"):
@@ -340,8 +369,7 @@ def rechazaresp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
-               'reservasesp': reservasesp}
+    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
 
 

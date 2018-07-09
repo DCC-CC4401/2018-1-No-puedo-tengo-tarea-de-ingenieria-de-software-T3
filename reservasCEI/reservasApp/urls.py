@@ -14,7 +14,10 @@ urlpatterns = [
     path('articulos', views.listaArticulos, name='listaArt'),
     path('spaces', views.listaEspacios, name='listaEsp'),
     path('exito', views.exito, name='exito'),
+    path('editArticulo', views.editArticulo, name='editArticulo'),
     path('perfil', views.perfil, name='perfil'),
+    path('nuevosDatos', views.nuevosDatos, name='nuevosDatos'),
+
 
     path('busquedaAvanzada', views.busquedaAvanzada, name='busquedaAvanzada'),
     path('busquedaSimple', views.busquedaSimple, name='busquedaSimple'), #cambiar url por id
