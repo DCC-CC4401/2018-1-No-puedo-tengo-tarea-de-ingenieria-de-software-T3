@@ -236,8 +236,6 @@ def nuevosDatos(request):
 
 def exito(request):
     if request.method == 'POST':
-        today = datetime.today()
-        now = datetime.now()
         usr = request.user
         usrid = usr.id
         idarticulo = request.POST['id_articulo']
@@ -245,9 +243,6 @@ def exito(request):
         fecha_f = request.POST['fecha_f']
         hora_i = request.POST['hora_i']
         hora_f = request.POST['hora_f']
-        #weekday = request.POST['cosa']
-        #if weekday == 0:
-        #    return HttpResponse("No se puede reservar en fin de semana")
         art = get_object_or_404(Articulo, id=idarticulo)
 
         nuevo = ReservaArticulo(id_usuario=usrid, articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
