@@ -43,8 +43,9 @@
         <br />
         <br />
     <p>{{ descripcion }}</p>
-
+    {% if admin == 1 %}
     <a href="editArticulo?idart={{ idarticulo }}" class="btn btn-outline-dark" role="button" aria-pressed="true">Editar informacion</a>
+    {% endif %}
     </div>
 
     <div class = reserva-articulo>

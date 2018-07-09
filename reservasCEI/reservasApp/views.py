@@ -184,11 +184,10 @@ def logoutView(request):
 
 
 def fichaArticulo(request):
-    usr = request.user
-    admins = Group.objects.get(name="Administrador")
-    a = 0
-    if admins in usr.groups.all():
-        a = 1
+    if request.user.is_superuser:
+        a=1
+    else:
+        a=0
     articulo_id = request.GET['idart']
     art = get_object_or_404(Articulo, id=articulo_id)
     nombre = art.nombre
@@ -196,19 +195,20 @@ def fichaArticulo(request):
     descripcion = art.descripcion
     foto = get_object_or_404(FotoArticulo, articulo=articulo_id)
     reservas = ReservaArticulo.objects.filter(articulo=art)
-    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto, 'reservas': reservas}
+    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto, 'reservas': reservas, 'admin': a}
         # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
 def editArticulo(request):
-    context = {}
-    if request.method == 'POST':
+    if request.method == 'GET':
         articulo_id = request.GET['idart']
         art = get_object_or_404(Articulo, id=articulo_id)
         nombre = art.nombre
         descripcion = art.descripcion
         context = {'nombre': nombre, 'idart': articulo_id, 'descripcion': descripcion}
-    return render(request, 'reservasApp/editArticulo.html', context)
+        return render(request, 'reservasApp/editArticulo.html', context)
+    else:
+        return HttpResponse("Error al editar")
 
 def nuevosDatos(request):
     if request.method == 'POST':
@@ -224,7 +224,7 @@ def nuevosDatos(request):
             es=1
         elif(estado == "En prestamo"):
             es=2
-        else:
+        elif(estado == "Perdido"):
             es=3
         art.estado = es
         art.save()
