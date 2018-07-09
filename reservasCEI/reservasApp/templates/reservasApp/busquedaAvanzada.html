@@ -15,7 +15,7 @@
                                                                             alt="" width="160"></a>
                         {% empty %}
                             <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
-                                                                            src='https://lightwidget.com/widgets/empty-photo.jpg'
+                                                                            src=https://cdn.dribbble.com/users/55871/screenshots/2158022/no_photo_1x.jpg
                                                                             alt="" width="160"></a>
                         {% endfor %}
                         <div class="card-body">
@@ -43,25 +43,29 @@
                     <input class="form-control-1" type="text" name="articulo" id="articulo">
                 </div>
                 <div class="form-inline">
-                    <div class="form-group">
-                        <select class="form-control2" name="tipo" id="tipo">
-                            <option value="0" selected="">Tipo</option>
-                            <option value="1">Featured</option>
-                            <option value="2">Most popular</option>
-                            <option value="3">Top rated</option>
-                            <option value="4">Most commented</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
+
+                    <div class="form-group-sm">
                         <select class="form-control2" name="estado" id="estado">
                             <option value="4" selected="">Estado</option>
                             <option value="1">Disponible</option>
                             <option value="0">Perdido</option>
                             <option value="2">En Préstamo</option>
-                            <option value="3">Perdido/Inutilizable</option>
+                            <option value="3">Inutilizable</option>
                         </select>
                     </div>
                 </div>
+
+                <div class="form-row" style="margin-left: 7%">
+                    <div class="form-group-sm col-md-6">
+                        <label for="fecha_i">Fecha inicial:</label>
+                        <input type="date" id="fecha_i" name="fecha_i"><br/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="fecha_f">Fecha final:</label>
+                        <input type="date" id="fecha_f" name="fecha_f"><br/>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn-center btn-primary">Buscar</button>
                 <button type="button" class="btn btn-outline btn-link" style="margin-left: 35%"
                         onclick="loadDoc('busquedaSimple',myFunction, 'busquedaAv')">

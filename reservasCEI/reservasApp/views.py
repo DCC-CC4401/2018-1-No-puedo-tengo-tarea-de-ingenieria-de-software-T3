@@ -10,8 +10,10 @@ from datetime import *
 from .forms import NewPersonForm, LoginForm
 from .models import *
 
+
 def index(request):
     return HttpResponse("Indice de la pagina. Esto es lo primero que los usuarios ven.")
+
 
 @login_required
 def listaEspacios(request, espacio_id=1, dia_actual=datetime.utcnow().replace(tzinfo=utc)):
@@ -73,6 +75,7 @@ def generarHorario(espacio_id, dia, horario_espacio, h=9):
         if (h < 17):
             generarHorario(espacio_id, dia, horario_espacio, h + 1)
 
+
 def fichaEspacio(request, espacio_id):
     espacio = get_object_or_404(Espacio, id=espacio_id)
     return render(request, 'reservasApp/fichaEspacio.html', {'espacio': espacio})
@@ -90,6 +93,7 @@ def listaArticulos(request):
 
     return render(request, 'reservasApp/listaArticulos.html', context)
 
+
 def busquedaSimple(request):
     if (request.method == 'POST'):
         articulo = request.POST['articulo']
@@ -106,33 +110,64 @@ def busquedaSimple(request):
 def busquedaAvanzada(request):
     if (request.method == 'POST'):
         articulo = request.POST['articulo']
-        tipo = request.POST['tipo']
         estado = request.POST['estado']
+        fecha_i = request.POST['fecha_i']
+        fecha_f = request.POST['fecha_f']
 
-        # campos estado y tipo existen
-        if (estado != "4" and tipo != "0"):
-            if (articulo != ""):  # campo articulo existe
-                inventario = Articulo.objects.filter(nombre__iexact=articulo, estado=estado, tipo=tipo)
-            else:  # campo articulo no existe
-                inventario = Articulo.objects.filter(estado=estado, tipo=tipo)
+        # campo fechas existe pero no estado
+        if (fecha_i != "" and fecha_f != "" and estado=="4"):  # existen rangos de fechas
+            if (articulo != ""):
+                nr = ReservaArticulo.objects.exclude(fecha_inicial=fecha_i, fecha_final=fecha_f)
+                # inventario = nr.all().select_related('articulo')
+                inventario = Articulo.objects.filter(nombre__iexact=articulo)
 
-        # campo estado existe pero no tipo
+                try:
+                    inventarioId = Articulo.objects.filter(pk=articulo)
+                    inventario = inventario.union(inventarioId)
+                except ValueError:
+                    pass
+            else:
+                # inventario = n.select_related('articulo')
+                inventario = Articulo.objects.all()
+
+        elif (fecha_i != "" and fecha_f != "" and estado != "4"):
+            if (articulo != ""):
+                nr = ReservaArticulo.objects.exclude(fecha_inicial=fecha_i, fecha_final=fecha_f)
+                # inventario = nr.all().select_related('articulo').filter(nombre__iexact=articulo, estado=estado)
+                inventario = Articulo.objects.filter(nombre__iexact=articulo, estado=estado)
+
+                try:
+                    inventarioId = Articulo.objects.filter(pk=articulo)
+                    inventario = inventario.union(inventarioId)
+                except ValueError:
+                    pass
+
+            else:
+                # inventario = nr.all().select_related('articulo').filter(estado=estado)
+                inventario = Articulo.objects.filter(estado=estado)
+
+        # campo estado existe pero no fechas
         elif (estado != "4"):
             if (articulo != ""):
                 inventario = Articulo.objects.filter(nombre__iexact=articulo, estado=estado)
+
+                try:
+                    inventarioId = Articulo.objects.filter(pk=articulo, estado=estado)
+                    inventario = inventario.union(inventarioId)
+                except ValueError:
+                    pass
+
             else:
                 inventario = Articulo.objects.filter(estado=estado)
 
-        # campo tipo existe pero no estado
-        elif (tipo != "0"):
-            if (articulo != ""):  # campo articulo existe
-                inventario = Articulo.objects.filter(nombre__iexact=articulo, tipo=tipo)
-            else:  # campo articulo no existe
-                inventario = Articulo.objects.filter(tipo=tipo)
-
-        # campo articulo pero no tipo ni estado
+        # campo articulo pero no estado ni fechas
         elif (articulo != ""):
             inventario = Articulo.objects.filter(nombre__iexact=articulo)
+            try:
+                inventarioId = Articulo.objects.filter(pk=articulo)
+                inventario = inventario.union(inventarioId)
+            except ValueError:
+                pass
 
         # Ningun campo existe
         else:
@@ -142,7 +177,7 @@ def busquedaAvanzada(request):
 
     else:
         articulos = Articulo.objects.all()
-        print("hola")
+
         return render(request, 'reservasApp/busquedaAvanzada.html', {'articulos': articulos})
 
 
@@ -180,8 +215,6 @@ def logoutView(request):
     return redirect('reservasApp:listaArt')
 
 
-
-
 def fichaArticulo(request):
     articulo_id = request.GET['idart']
     art = get_object_or_404(Articulo, id=articulo_id)
@@ -190,8 +223,9 @@ def fichaArticulo(request):
     descripcion = art.descripcion
     foto = get_object_or_404(FotoArticulo, articulo=articulo_id)
     reservas = ReservaArticulo.objects.filter(articulo=art)
-    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto, 'reservas': reservas}
-        # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
+    context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto,
+               'reservas': reservas}
+    # context = {'nombre': nombre, 'estado': estado, 'descripcion': descripcion, 'idarticulo': articulo_id, 'foto': foto}
     return render(request, 'reservasApp/fichaArticulo.html', context)
 
 
@@ -207,8 +241,9 @@ def exito(request):
         art = get_object_or_404(Articulo, id=idarticulo)
         # art.estado = 2
         # art.save()
-        nuevo = ReservaArticulo(id_usuario=usrid, articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f, hora_inicial=hora_i,
-                            hora_final=hora_f, estado=2)
+        nuevo = ReservaArticulo(id_usuario=usrid, articulo=art, fecha_inicial=fecha_i, fecha_final=fecha_f,
+                                hora_inicial=hora_i,
+                                hora_final=hora_f, estado=2)
         nuevo.save()
     return render(request, 'reservasApp/exito.html')
 
@@ -220,12 +255,15 @@ def perfil(request):
     if (request.user.is_authenticated):
         if (request.user.groups.filter(name='Administrador').exists()):
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-            context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+            context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+                       'reservasesp': reservasesp}
             return render(request, 'reservasApp/perfiladmin.html', context)
         else:
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)[:10]
-            context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+            context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+                       'reservasesp': reservasesp}
             return render(request, 'reservasApp/perfil.html', context)
+
 
 def eliminar_pendientesesp(request):
     for i in request.POST.getlist("reserva"):
@@ -234,8 +272,10 @@ def eliminar_pendientesesp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfil.html', context)
+
 
 def eliminar_pendientesart(request):
     for i in request.POST.getlist("reserva"):
@@ -244,8 +284,10 @@ def eliminar_pendientesart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfil.html', context)
+
 
 def aprobarart(request):
     for i in request.POST.getlist("reserva"):
@@ -256,8 +298,10 @@ def aprobarart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
+
 
 def rechazarart(request):
     for i in request.POST.getlist("reserva"):
@@ -268,8 +312,10 @@ def rechazarart(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
+
 
 def aprobaresp(request):
     for i in request.POST.getlist("reserva"):
@@ -280,8 +326,10 @@ def aprobaresp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
+
 
 def rechazaresp(request):
     for i in request.POST.getlist("reserva"):
@@ -292,7 +340,8 @@ def rechazaresp(request):
     reservasart = ReservaArticulo.objects.all()
     reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
-    context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
+    context = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart,
+               'reservasesp': reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
 
 

@@ -146,7 +146,7 @@ body {
     background-color: lightgray;
     position: static;
     width: 410px;
-    height: 207px;
+    height: 250px;
 }
 
 .small-container {
@@ -162,13 +162,18 @@ body {
 }
 
 .form-control2 {
-    margin-left: 37px;
-    width: 80%;
+    margin-left: 20%;
+    width: 200px;
     position: static;
+
 }
 
-.form-group {;
-    height: 59px;
+.form-group {
+    height: 50px;
+}
+
+.form-group-sm{
+    height: 40px;
 }
 
 .btn-center {
