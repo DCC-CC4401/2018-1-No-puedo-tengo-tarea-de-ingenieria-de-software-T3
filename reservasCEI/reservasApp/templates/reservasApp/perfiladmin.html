@@ -65,42 +65,6 @@
       </tbody>
     </table>
   </div>
-</div>
-<div class="col-xs-6">
-  <h2 align="center" class="sub-header">Préstamos aprobados</h2>
-  <br><br>
-  <div class="table-responsive">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th class="col-md-2">Usuario</th>
-          <th class="col-md-2">Articulo/Espacio</th>
-          <th class="col-md-2">Horario</th>
-          <th class="col-md-2">Fecha de reserva</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for r in reservas_recientes %}
-        {% if r.estado == 1 %}
-        <tr>
-          <td class="col-md-2">user</td>
-          <td class="col-md-2">{{ r }}</td>
-          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
-            {% if fecha_inicial == fecha_final %}
-                {{ r.hora_final }}:00 </td>
-            {% else %}
-                {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
-            {% endif %}
-          <td class="col-md-2">{{ r.fecha_reserva }}</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  </div>
-</div>
-<div class="col-xs-6">
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
@@ -140,5 +104,38 @@
     </table>
   </div>
 </div>
-
+<div class="col-xs-6">
+  <h2 align="center" class="sub-header">Préstamos aprobados</h2>
+  <br><br>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-2">Usuario</th>
+          <th class="col-md-2">Articulo/Espacio</th>
+          <th class="col-md-2">Horario</th>
+          <th class="col-md-2">Fecha de reserva</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reservas_recientes %}
+        {% if r.estado == 1 %}
+        <tr>
+          <td class="col-md-2">user</td>
+          <td class="col-md-2">{{ r }}</td>
+          <td class="col-md-2">{{ r.fecha_inicial }} {{ r.hora_inicial }}:00 -
+            {% if fecha_inicial == fecha_final %}
+                {{ r.hora_final }}:00 </td>
+            {% else %}
+                {{ r.fecha_final }} {{ r.hora_final }}:00 </td>
+            {% endif %}
+          <td class="col-md-2">{{ r.fecha_reserva }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
 {% endblock %}

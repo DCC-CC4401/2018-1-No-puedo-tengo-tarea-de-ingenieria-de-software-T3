@@ -257,15 +257,18 @@ def exito(request):
 
 
 def perfil(request):
-    reservasesp = ReservaEspacio.objects.all()
-    reservasart = ReservaArticulo.objects.all()
-    reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
     if (request.user.is_authenticated):
         if (request.user.groups.filter(name='Administrador').exists()):
+            reservasesp = ReservaEspacio.objects.all()
+            reservasart = ReservaArticulo.objects.all()
+            reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
             context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
             return render(request, 'reservasApp/perfiladmin.html', context)
         else:
+            reservasesp = ReservaEspacio.objects.filter(id_usuario=request.user.id)
+            reservasart = ReservaArticulo.objects.filter(id_usuario=request.user.id)
+            reservas = sorted(chain(reservasesp, reservasart), key=attrgetter('fecha_reserva'))
             reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)[:10]
             context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
             return render(request, 'reservasApp/perfil.html', context)
