@@ -64,6 +64,7 @@ def generarHorario(espacio_id, dia, horario_espacio, h=9):
                 if (r.fecha_inicial.day == d2 and
                         r.fecha_inicial.month == m and
                         r.fecha_inicial.year == a and
+                        r.estado == 1
                         (r.hora_inicial <= h and r.hora_final > h)):
                     horario.append(r.espacio)
                     found = True
@@ -374,4 +375,4 @@ def rechazaresp(request):
 
 
 def buscar(request):
-    return "hola"
+return "hola"
