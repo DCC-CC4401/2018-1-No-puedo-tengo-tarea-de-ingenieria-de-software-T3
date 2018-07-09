@@ -64,7 +64,7 @@ def generarHorario(espacio_id, dia, horario_espacio, h=9):
                 if (r.fecha_inicial.day == d2 and
                         r.fecha_inicial.month == m and
                         r.fecha_inicial.year == a and
-                        r.estado == 1
+                        r.estado == 1 and
                         (r.hora_inicial <= h and r.hora_final > h)):
                     horario.append(r.espacio)
                     found = True
@@ -372,7 +372,3 @@ def rechazaresp(request):
     reservas_recientes = sorted(reservas, key=attrgetter('fecha_reserva'), reverse=True)
     context  = {'reservas_recientes': reservas_recientes, 'reservas': reservas, 'reservasart': reservasart, 'reservasesp':reservasesp}
     return render(request, 'reservasApp/perfiladmin.html', context)
-
-
-def buscar(request):
-return "hola"
