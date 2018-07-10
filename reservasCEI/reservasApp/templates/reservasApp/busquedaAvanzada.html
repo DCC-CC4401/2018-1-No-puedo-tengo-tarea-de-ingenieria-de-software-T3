@@ -11,7 +11,7 @@
                         {% for foto in art.fotoarticulo_set.all %}
 
                             <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
-                                                                            src="http://localhost:8000/media/{{ foto.ruta }}"
+                                                                            src="{{ foto.ruta.url }}"
                                                                             alt="" width="160" height="118px"></a>
                         {% empty %}
                             <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
@@ -82,7 +82,7 @@
                         {% for foto in art.fotoarticulo_set.all %}
 
                             <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
-                                                                            src="http://localhost:8000/media/{{ foto.ruta }}"
+                                                                            src="{{ foto.ruta.url }}"
                                                                             alt="" width="160" height="118px"></a>
                         {% empty %}
                             <a href="fichaArticulo?idart={{ art.id }}"><img class="card-img-top"
